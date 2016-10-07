@@ -1,11 +1,14 @@
 package com.example.root.gitsecommerce.Main.ViewModel;
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.example.Core.MyObserver;
 import com.example.Dao.ListDao;
 import com.example.Repository.ListRepository;
 import com.example.root.gitsecommerce.Constant.eCommerceApp;
+import com.example.root.gitsecommerce.Main.RecyclerViewSetting.ContentAdapter;
 import com.google.common.util.concurrent.AbstractScheduledService;
 
 import java.util.ArrayList;
@@ -19,6 +22,8 @@ import rx.schedulers.Schedulers;
  */
 
 public class MainActivityVM extends GitsVM {
+    public ContentAdapter bAdapter;
+    public GridLayoutManager gridLayoutManager;
     private ListRepository mListRepository;
     public List<ListDao.DATABean.ProductsBean> mData = new ArrayList<>();
 
@@ -26,6 +31,9 @@ public class MainActivityVM extends GitsVM {
     public MainActivityVM(Context context) {
         super(context);
         mListRepository = new ListRepository(eCommerceApp.getMeCommerceApi());
+        getCommerceList();
+        bAdapter = new ContentAdapter(mData);
+        gridLayoutManager = new GridLayoutManager(mContext, 2);
 
     }
 
