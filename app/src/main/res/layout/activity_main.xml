@@ -7,23 +7,24 @@
             name="vm"
             type="com.example.root.gitsecommerce.Main.ViewModel.MainActivityVM"/>
     </data>
-
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        android:background="#fff"
         tools:context="com.example.root.gitsecommerce.Main.MainActivity">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
             android:background="#3F51B5"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/app_bar_height"
+            android:layout_height="50dp"
             android:fitsSystemWindows="true"
             android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/fragment_toolbar_layout"
+            android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
@@ -33,11 +34,15 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
+
     <android.support.v4.widget.NestedScrollView
+        android:layout_below="@id/app_bar"
+        android:id="@+id/nested"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <LinearLayout
+            android:background="#000"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -46,26 +51,32 @@
                 android:layout_height="50dp"
                 android:orientation="horizontal">
                 <Button
-                    android:background="#4242"
+                    android:layout_marginRight="0.5dp"
+                    android:textColor="#fff"
+                    android:background="#424242"
                     android:textAlignment="center"
                     android:text="Sort"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"/>
                 <Button
-                    android:background="#4242"
+                    android:layout_marginLeft="0.5dp"
+                    android:textColor="#fff"
+                    android:background="#424242"
                     android:text="Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"/>
             </LinearLayout>
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layoutManager="@{vm.gridLayoutManager}"
-                app:adapter="@{vm.bAdapter}">
-            </android.support.v7.widget.RecyclerView>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+        <android.support.v7.widget.RecyclerView
+            android:layout_below="@id/nested"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="@{vm.gridLayoutManager}"
+            app:adapter="@{vm.bAdapter}">
+        </android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>
 </layout>

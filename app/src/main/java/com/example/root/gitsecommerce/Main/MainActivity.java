@@ -3,6 +3,7 @@ package com.example.root.gitsecommerce.Main;
 import com.example.Core.MyObserver;
 import com.example.Dao.ListDao;
 import com.example.root.gitsecommerce.Main.ViewModel.MainActivityVM;
+import com.example.root.gitsecommerce.R;
 import com.example.root.gitsecommerce.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class MainActivity extends GitsActivity<MainActivityVM, ActivityMainBindi
 
     @Override
     public int getResLayout() {
-        return com.example.root.gitsecommerce.R.layout.activity_main;
+        return R.layout.activity_main;
     }
 
     @Override
