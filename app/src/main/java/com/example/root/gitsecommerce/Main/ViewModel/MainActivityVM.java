@@ -25,15 +25,14 @@ public class MainActivityVM extends GitsVM {
     public ContentAdapter bAdapter;
     public GridLayoutManager gridLayoutManager;
     private ListRepository mListRepository;
-    public List<ListDao.DATABean.ProductsBean> mData = new ArrayList<>();
+    public List<ListDao> mData = new ArrayList<>();
 
 
     public MainActivityVM(Context context) {
         super(context);
         mListRepository = new ListRepository(eCommerceApp.getMeCommerceApi());
         getCommerceList();
-        bAdapter = new ContentAdapter(mData);
-        gridLayoutManager = new GridLayoutManager(mContext, 2);
+
 
     }
 
@@ -49,13 +48,18 @@ public class MainActivityVM extends GitsVM {
 
             @Override
             public void onApiResultError(String message, String code) {
-
+                System.out.println("pesan errornya "+message+" \ncode "+code);
             }
 
             @Override
             public void onApiResultOk(ListDao listDao) {
                 ListDao listDao1 = listDao;
-                mData = listDao.getDATA().getProducts();
+                mData.add(listDao);
+                System.out.println("datanya "+mData.get(0).getDATA().getProducts().get(0).getNama());
+                bAdapter = new ContentAdapter(mData.get(0).getDATA().getProducts());
+                gridLayoutManager = new GridLayoutManager(mContext, 2);
+
+                bAdapter.notifyDataSetChanged();
             }
         }));
     }

@@ -5,5 +5,5 @@ package com.example.root.gitsecommerce.Constant;
  */
 
 public class Constant {
-    public static final String BASE_URL = "http://dev.gits.co.id/apiecommerce/public/index.php";
+    public static final String BASE_URL = "http://dev.gits.co.id/apiecommerce/public/index.php/";
 }
