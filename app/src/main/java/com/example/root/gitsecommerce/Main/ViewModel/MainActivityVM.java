@@ -10,11 +10,13 @@ import com.example.Dao.ListDao;
 import com.example.Repository.ListRepository;
 import com.example.root.gitsecommerce.Constant.eCommerceApp;
 import com.example.root.gitsecommerce.Main.RecyclerViewSetting.ContentAdapter;
+import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.AbstractScheduledService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
+import android.os.Handler;
+import android.util.Log;
 
 import id.gits.mvvmcore.viewmodel.GitsVM;
 import rx.schedulers.Schedulers;
@@ -27,17 +29,54 @@ public class MainActivityVM extends GitsVM {
     public ContentAdapter bAdapter;
     public GridLayoutManager gridLayoutManager;
     private ListRepository mListRepository;
-    public List<ListDao> mData = new ArrayList<>();
+    public List<ListDao.DATABean.ProductsBean> mData = new ArrayList<>();
+    Handler handler = new Handler();
 
     public MainActivityVM(Context context) {
         super(context);
-
-        getCommerceList();
+        //getCommerceList();
         mListRepository = new ListRepository(eCommerceApp.getMeCommerceApi());
         gridLayoutManager = new GridLayoutManager(mContext, 2);
-        bAdapter = new ContentAdapter(mData);
+          bAdapter = new ContentAdapter(mData);
+//        new getData().execute();
+        //bAdapter = new ContentAdapter(mData);
 
+        getCommerceList();
+//        handler.postDelayed(runnable,3000);
     }
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+//            System.out.println(""+mData.get(0).getDATA().getProducts());
+//            gridLayoutManager = new GridLayoutManager(mContext, 2);
+//            bAdapter = new ContentAdapter(mData.get(0).getDATA().getProducts());
+//            bAdapter.notifyDataSetChanged();
+        }
+    };
+    public class getData extends AsyncTask<Void,Void,Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            getCommerceList();
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            System.out.println(""+mData.size());
+//            gridLayoutManager = new GridLayoutManager(mContext, 2);
+//            bAdapter = new ContentAdapter(mData.get(0).getDATA().getProducts());
+//            bAdapter.notifyDataSetChanged();
+        }
+    }
+
 
     void getCommerceList(){
         addSubscription(mListRepository.getListDao()
@@ -46,6 +85,7 @@ public class MainActivityVM extends GitsVM {
 
             @Override
             public void onApiResultCompleted() {
+
 
             }
 
@@ -56,11 +96,19 @@ public class MainActivityVM extends GitsVM {
 
             @Override
             public void onApiResultOk(ListDao listDao) {
-                mData.add(listDao);
-                bAdapter.notifyDataSetChanged();
+                Log.wtf("DATA",listDao.getDATA().getProducts().get(0).getNama());
+                mData.addAll(listDao.getDATA().getProducts());
+                initRecycleView(mData);
             }
         }));
     }
+
+    private void initRecycleView(List<ListDao.DATABean.ProductsBean> mData) {
+        gridLayoutManager = new GridLayoutManager(mContext, 2);
+            bAdapter = new ContentAdapter(mData);
+            bAdapter.notifyDataSetChanged();
+    }
+
 
 
 }

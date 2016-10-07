@@ -17,14 +17,14 @@ import id.gits.mvvmcore.viewmodel.GitsRowVM;
  * Created by root on 07/10/16.
  */
 
-public class ContentAdapter extends GitsAdapter<ListDao,ContentVM,CardContentRowBinding>{
-    public ContentAdapter(List<ListDao> collection) {
+public class ContentAdapter extends GitsAdapter<ListDao.DATABean.ProductsBean,ContentVM,CardContentRowBinding>{
+    public ContentAdapter(List<ListDao.DATABean.ProductsBean> collection) {
         super(collection);
     }
 
     @Override
-    public ContentVM createViewModel(AppCompatActivity activity, CardContentRowBinding binding, ListDao item, int position) {
-        return new ContentVM(activity,binding,item,position);
+    public ContentVM createViewModel(AppCompatActivity activity, CardContentRowBinding binding, ListDao.DATABean.ProductsBean item, int position) {
+        return new ContentVM(activity,binding,item);
     }
 
 
@@ -34,12 +34,12 @@ public class ContentAdapter extends GitsAdapter<ListDao,ContentVM,CardContentRow
     }
 
     @Override
-    public void render(CardContentRowBinding binding, ContentVM viewModel, ListDao item) {
+    public void render(CardContentRowBinding binding, ContentVM viewModel, ListDao.DATABean.ProductsBean item) {
         binding.setVm(viewModel);
     }
 
     @Override
-    public void onRowClick(ListDao data, int position) {
+    public void onRowClick(ListDao.DATABean.ProductsBean data, int position) {
 
     }
 
