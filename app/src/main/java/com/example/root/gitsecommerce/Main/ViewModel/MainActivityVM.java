@@ -28,41 +28,16 @@ public class MainActivityVM extends GitsVM {
     public GridLayoutManager gridLayoutManager;
     private ListRepository mListRepository;
     public List<ListDao> mData = new ArrayList<>();
-    Thread delaytime;
 
     public MainActivityVM(Context context) {
         super(context);
-        //getCommerceList();
+
+        getCommerceList();
         mListRepository = new ListRepository(eCommerceApp.getMeCommerceApi());
         gridLayoutManager = new GridLayoutManager(mContext, 2);
-
-        new getData().execute();
-        System.out.println(""+mData.size());
-        //bAdapter = new ContentAdapter(mData);
+        bAdapter = new ContentAdapter(mData);
 
     }
-
-    public class getData extends AsyncTask<Void,Void,Void> {
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            getCommerceList();
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            bAdapter = new ContentAdapter(mData);
-            bAdapter.notifyDataSetChanged();
-        }
-    }
-
 
     void getCommerceList(){
         addSubscription(mListRepository.getListDao()
@@ -82,6 +57,7 @@ public class MainActivityVM extends GitsVM {
             @Override
             public void onApiResultOk(ListDao listDao) {
                 mData.add(listDao);
+                bAdapter.notifyDataSetChanged();
             }
         }));
     }
