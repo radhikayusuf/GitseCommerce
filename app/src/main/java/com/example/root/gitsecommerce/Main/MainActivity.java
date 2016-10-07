@@ -1,6 +1,7 @@
 package com.example.root.gitsecommerce.Main;
 
 import com.example.Core.MyObserver;
+import com.example.Dao.ContentDao;
 import com.example.Dao.ListDao;
 import com.example.root.gitsecommerce.Main.ViewModel.MainActivityVM;
 import com.example.root.gitsecommerce.databinding.ActivityMainBinding;
@@ -13,7 +14,7 @@ import rx.schedulers.Schedulers;
 
 public class MainActivity extends GitsActivity<MainActivityVM, ActivityMainBinding> {
 
-    public List<ListDao> mData = new ArrayList<>();
+    public List<ContentDao> mData = new ArrayList<>();
 
     @Override
     protected int getToolbarId() {

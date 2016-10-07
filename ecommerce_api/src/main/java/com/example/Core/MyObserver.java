@@ -20,7 +20,7 @@ import rx.Observer;
 
 public abstract class MyObserver<T extends BaseApiDao> implements Observer<T> {
     public abstract void onApiResultCompleted();
-    public abstract void onApiResultError(String message,String code);
+    public abstract void onApiResultError(String message,int code);
     public abstract void onApiResultOk(T t);
 
     @Override
@@ -34,26 +34,26 @@ public abstract class MyObserver<T extends BaseApiDao> implements Observer<T> {
             try{
                 ResponseBody body = ((HttpException) e).response().errorBody();
                 BaseApiDao apiDao = new Gson().fromJson(body.string(), BaseApiDao.class);
-                onApiResultError(apiDao.getMessage(),apiDao.getCode());
+                onApiResultError(apiDao.message.PROD, apiDao.STATUS_CODE);
             } catch (IOException e1) {
                 e1.printStackTrace();
-                onApiResultError("Terjadi kesalahan, ", "exception");
+                onApiResultError("Terjadi kesalahan, ", 0);
             }
             onApiResultCompleted();
         }else if (e instanceof UnknownHostException) {
-            onApiResultError("Koneksi terputus, silahkan coba lagi", "exception");
+            onApiResultError("Koneksi terputus, silahkan coba lagi", 0);
         } else if (e instanceof SocketTimeoutException) {
-            onApiResultError("Koneksi terputus, silahkan coba lagi", "exception");
+            onApiResultError("Koneksi terputus, silahkan coba lagi",0);
         } else {
             System.err.println(e.getMessage());
             e.printStackTrace();
-            onApiResultError("Terjadi kesalahan, ", "exception");
+            onApiResultError("Terjadi kesalahan, ", 0);
         }
     }
     @Override
     public final void onNext(T t){
-        if (t.getCode() != null && t.getCode().contains("failed")) {
-            onApiResultError(t.getMessage(), "failed");
+        if (t.STATUS_CODE != 0 && t.STATUS_CODE > 0) {
+            onApiResultError(t.message.PROD, 0);
         } else {
             onApiResultOk(t);
 

@@ -1,7 +1,11 @@
 package com.example.Repository;
 
 import com.example.Core.eCommerceApi;
+import com.example.Dao.BaseApiDao;
+import com.example.Dao.ContentDao;
 import com.example.Dao.ListDao;
+
+import java.util.List;
 
 import rx.Observable;
 
@@ -14,7 +18,7 @@ public class ListRepository {
     public ListRepository(eCommerceApi commerceApi){
         meCommerceApi = commerceApi;
     }
-    public Observable<ListDao> getListDao(){
-        return meCommerceApi.getApiService().getListDao();
+    public Observable<BaseApiDao<ContentDao>> getContentDao(){
+        return meCommerceApi.getApiService().getContentDao();
     }
 }
