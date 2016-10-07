@@ -1,9 +1,6 @@
-package com.example.root.gitsecommerce;
+package com.example.root.gitsecommerce.Main;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
-import com.example.root.gitsecommerce.ViewModel.MainActivityVM;
+import com.example.root.gitsecommerce.Main.ViewModel.MainActivityVM;
 import com.example.root.gitsecommerce.databinding.ActivityMainBinding;
 
 import id.gits.mvvmcore.activity.GitsActivity;
@@ -18,7 +15,7 @@ public class MainActivity extends GitsActivity<MainActivityVM, ActivityMainBindi
 
     @Override
     public int getResLayout() {
-        return R.layout.activity_main;
+        return com.example.root.gitsecommerce.R.layout.activity_main;
     }
 
     @Override

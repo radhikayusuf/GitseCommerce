@@ -1,4 +1,4 @@
-package com.example.root.gitsecommerce.ViewModel;
+package com.example.root.gitsecommerce.Main.ViewModel;
 
 import android.content.Context;
 
