@@ -2,6 +2,8 @@ package com.example.root.gitsecommerce.Main.ViewModel;
 
 import android.content.Context;
 
+import com.example.root.gitsecommerce.Constant.eCommerceApp;
+
 import id.gits.mvvmcore.viewmodel.GitsVM;
 
 /**
@@ -11,5 +13,11 @@ import id.gits.mvvmcore.viewmodel.GitsVM;
 public class MainActivityVM extends GitsVM {
     public MainActivityVM(Context context) {
         super(context);
+        eCommerceApp
+
+    }
+
+    void getCommerceList(){
+        addSubscription(eCommerceApp);
     }
 }
