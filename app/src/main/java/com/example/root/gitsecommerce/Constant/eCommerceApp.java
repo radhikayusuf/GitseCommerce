@@ -7,5 +7,5 @@ import android.app.Application;
  */
 
 public class eCommerceApp extends Application{
-    private static
+
 }
