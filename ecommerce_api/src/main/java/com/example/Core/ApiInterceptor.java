@@ -7,7 +7,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by Aqiel on 10/7/2016.
+ * Created by Varokah on 10/7/2016.
  */
 
 public class ApiInterceptor implements Interceptor {
