@@ -13,6 +13,7 @@ import com.google.common.util.concurrent.AbstractScheduledService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 
 import id.gits.mvvmcore.viewmodel.GitsVM;
 import rx.schedulers.Schedulers;
@@ -26,15 +27,17 @@ public class MainActivityVM extends GitsVM {
     public GridLayoutManager gridLayoutManager;
     private ListRepository mListRepository;
     public List<ListDao> mData = new ArrayList<>();
-
+    Thread delaytime;
 
     public MainActivityVM(Context context) {
         super(context);
-        mListRepository = new ListRepository(eCommerceApp.getMeCommerceApi());
         getCommerceList();
-
+        mListRepository = new ListRepository(eCommerceApp.getMeCommerceApi());
+        gridLayoutManager = new GridLayoutManager(mContext, 2);
+        bAdapter = new ContentAdapter(mData);
 
     }
+
 
     void getCommerceList(){
         addSubscription(mListRepository.getListDao()
@@ -53,12 +56,8 @@ public class MainActivityVM extends GitsVM {
 
             @Override
             public void onApiResultOk(ListDao listDao) {
-                ListDao listDao1 = listDao;
                 mData.add(listDao);
-                System.out.println("datanya "+mData.get(0).getDATA().getProducts().get(0).getNama());
-                bAdapter = new ContentAdapter(mData.get(0).getDATA().getProducts());
-                gridLayoutManager = new GridLayoutManager(mContext, 2);
-
+                bAdapter = new ContentAdapter(mData);
                 bAdapter.notifyDataSetChanged();
             }
         }));
