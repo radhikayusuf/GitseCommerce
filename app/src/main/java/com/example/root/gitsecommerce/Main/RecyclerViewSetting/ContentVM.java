@@ -14,18 +14,18 @@ import rx.Observable;
  * Created by root on 07/10/16.
  */
 
-public class ContentVM extends GitsRowVM<ListDao, CardContentRowBinding> {
+public class ContentVM extends GitsRowVM<ListDao.DATABean.ProductsBean, CardContentRowBinding> {
     public ObservableField<String> bNameProduct = new ObservableField<>();
     public ObservableField<String> bDiscProduct = new ObservableField<>();
     public ObservableField<String> bPriceProduct = new ObservableField<>();
     public ObservableField<String> bImageProduct = new ObservableField<>();
 
-    public ContentVM(AppCompatActivity activity, CardContentRowBinding binding, ListDao item, int position) {
+    public ContentVM(AppCompatActivity activity, CardContentRowBinding binding, ListDao.DATABean.ProductsBean item) {
         super(activity, binding, item);
-        bNameProduct.set(item.getDATA().getProducts().get(position).getNama());
-        bDiscProduct.set(item.getDATA().getProducts().get(position).getDiskon());
-        bPriceProduct.set(item.getDATA().getProducts().get(position).getHarga());
-        bImageProduct.set(item.getDATA().getProducts().get(position).getUrl_foto());
+        bNameProduct.set(item.getNama());
+        bDiscProduct.set(item.getDiskon());
+        bPriceProduct.set(item.getHarga());
+        bImageProduct.set(item.getUrl_foto());
 
     }
 
