@@ -3,11 +3,31 @@ package com.example.root.gitsecommerce;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.root.gitsecommerce.ViewModel.MainActivityVM;
+import com.example.root.gitsecommerce.databinding.ActivityMainBinding;
+
+import id.gits.mvvmcore.activity.GitsActivity;
+
+public class MainActivity extends GitsActivity<MainActivityVM, ActivityMainBinding> {
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected int getToolbarId() {
+        return 0;
+    }
+
+    @Override
+    public int getResLayout() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public MainActivityVM getViewModel() {
+        return new MainActivityVM(this);
+    }
+
+    @Override
+    public void bindViewModel(ActivityMainBinding binding, MainActivityVM viewModel) {
+        binding.setVm(viewModel);
     }
 }
