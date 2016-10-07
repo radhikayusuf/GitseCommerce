@@ -6,7 +6,7 @@ import java.util.List;
  * Created by Varokah on 10/7/2016.
  */
 
-public class ListDao {
+public class ListDao extends BaseApiDao {
 
     /**
      * STATUS : true
