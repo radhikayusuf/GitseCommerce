@@ -1,6 +1,7 @@
 package com.example.root.gitsecommerce.Main.ViewModel;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -31,11 +32,35 @@ public class MainActivityVM extends GitsVM {
 
     public MainActivityVM(Context context) {
         super(context);
-        getCommerceList();
+        //getCommerceList();
         mListRepository = new ListRepository(eCommerceApp.getMeCommerceApi());
         gridLayoutManager = new GridLayoutManager(mContext, 2);
-        bAdapter = new ContentAdapter(mData);
 
+        new getData().execute();
+        System.out.println(""+mData.size());
+        //bAdapter = new ContentAdapter(mData);
+
+    }
+
+    public class getData extends AsyncTask<Void,Void,Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            getCommerceList();
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            bAdapter = new ContentAdapter(mData);
+            bAdapter.notifyDataSetChanged();
+        }
     }
 
 
@@ -57,8 +82,6 @@ public class MainActivityVM extends GitsVM {
             @Override
             public void onApiResultOk(ListDao listDao) {
                 mData.add(listDao);
-                bAdapter = new ContentAdapter(mData);
-                bAdapter.notifyDataSetChanged();
             }
         }));
     }
