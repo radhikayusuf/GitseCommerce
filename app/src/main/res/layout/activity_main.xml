@@ -9,7 +9,7 @@
     </data>
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         tools:context="com.example.root.gitsecommerce.Main.MainActivity">
         <RelativeLayout
@@ -39,8 +39,7 @@
         android:layout_below="@id/app_bar"
         android:id="@+id/nested"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="wrap_content">
         <LinearLayout
             android:background="#000"
             android:layout_width="match_parent"
