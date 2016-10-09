@@ -12,4 +12,5 @@ public class FilterDialogVM extends GitsVM{
     public FilterDialogVM(Context context) {
         super(context);
     }
+    public void onClose(){ this.finishSubscriber();}
 }

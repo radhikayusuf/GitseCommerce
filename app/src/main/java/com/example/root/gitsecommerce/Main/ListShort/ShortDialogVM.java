@@ -13,4 +13,5 @@ public class ShortDialogVM extends GitsVM{
     public ShortDialogVM(Context context) {
         super(context);
     }
+    public void onClose(){}
 }

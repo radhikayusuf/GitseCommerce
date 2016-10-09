@@ -17,8 +17,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Main.ListFilter.FilterDialog" />
-        <activity android:name=".Main.ListShort.ShortDialog"></activity>
+        <activity android:name=".Main.ListFilter.FilterDialog" android:theme="@style/Theme.AppCompat.Dialog" android:label="Filter"/>
+        <activity android:name=".Main.ListShort.ShortDialog" android:theme="@style/Theme.AppCompat.Dialog" android:label="Short"></activity>
     </application>
 
 </manifest>
