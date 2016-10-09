@@ -10,6 +10,9 @@ import com.example.Dao.ListDao;
 import com.example.root.gitsecommerce.databinding.CardContentRowBinding;
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import id.gits.mvvmcore.viewmodel.GitsRowVM;
 import rx.Observable;
 
@@ -28,7 +31,7 @@ public class ContentVM extends GitsRowVM<ListDao.DATABean.ProductsBean, CardCont
         super(activity, binding, item);
         bNameProduct.set(item.getNama());
         bDiscProduct.set(item.getDiskon()+"%");
-        bPriceProduct.set(item.getHarga());
+        bPriceProduct.set("Rp. "+toRupiahFormat(item.getHarga()));
         bImageProduct.set(item.getUrl_foto());
         ctx = activity.getApplicationContext();
     }
@@ -40,5 +43,15 @@ public class ContentVM extends GitsRowVM<ListDao.DATABean.ProductsBean, CardCont
                 .into(iv);
     }
 
+    public String toRupiahFormat(String nominal) {
+        NumberFormat rupiahFormat = null;
+        String rupiah = "";
+
+        rupiahFormat = NumberFormat.getInstance(Locale.GERMANY);
+        rupiah = rupiahFormat.format(Double.parseDouble(nominal)) +",00";
+
+
+        return rupiah;
+    }
 
 }
