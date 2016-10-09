@@ -1,7 +1,11 @@
 package com.example.root.gitsecommerce.Main.ViewModel;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.databinding.BindingAdapter;
 import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -9,14 +13,22 @@ import com.example.Core.MyObserver;
 import com.example.Dao.ListDao;
 import com.example.Repository.ListRepository;
 import com.example.root.gitsecommerce.Constant.eCommerceApp;
+import com.example.root.gitsecommerce.Main.ListFilter.FilterDialog;
 import com.example.root.gitsecommerce.Main.RecyclerViewSetting.ContentAdapter;
+import com.example.root.gitsecommerce.R;
+import com.example.root.gitsecommerce.databinding.FilterDialogBinding;
 import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.AbstractScheduledService;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import id.gits.mvvmcore.viewmodel.GitsVM;
 import rx.schedulers.Schedulers;
@@ -27,58 +39,49 @@ import rx.schedulers.Schedulers;
 
 public class MainActivityVM extends GitsVM {
     public ContentAdapter bAdapter;
+    public String hello = "Hello";
+    public SwipeRefreshLayout swipeRefreshLayout;
     public GridLayoutManager gridLayoutManager;
     private ListRepository mListRepository;
+    public Button.OnClickListener btn, btnBack;
     public List<ListDao.DATABean.ProductsBean> mData = new ArrayList<>();
-    Handler handler = new Handler();
+    public SwipeRefreshLayout.OnRefreshListener onRefreshListener;
+    private static String hasil = "Gagal";
 
-    public MainActivityVM(Context context) {
+    public MainActivityVM(final Context context) {
         super(context);
-        //getCommerceList();
+        swipeRefreshLayout = new SwipeRefreshLayout(mContext);
         mListRepository = new ListRepository(eCommerceApp.getMeCommerceApi());
         gridLayoutManager = new GridLayoutManager(mContext, 2);
-          bAdapter = new ContentAdapter(mData);
-//        new getData().execute();
-        //bAdapter = new ContentAdapter(mData);
-
+        bAdapter = new ContentAdapter(mData);
         getCommerceList();
-//        handler.postDelayed(runnable,3000);
-    }
 
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-//            System.out.println(""+mData.get(0).getDATA().getProducts());
-//            gridLayoutManager = new GridLayoutManager(mContext, 2);
-//            bAdapter = new ContentAdapter(mData.get(0).getDATA().getProducts());
-//            bAdapter.notifyDataSetChanged();
-        }
-    };
-    public class getData extends AsyncTask<Void,Void,Void> {
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            getCommerceList();
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+        btn = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog dialog= new Dialog(mContext);
+                dialog.setContentView(R.layout.filter_dialog);
+                dialog.setCancelable(true);
+                dialog.show();
             }
+        };
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            System.out.println(""+mData.size());
-//            gridLayoutManager = new GridLayoutManager(mContext, 2);
-//            bAdapter = new ContentAdapter(mData.get(0).getDATA().getProducts());
-//            bAdapter.notifyDataSetChanged();
-        }
+       onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+           @Override
+           public void onRefresh() {
+               //mData.clear();
+               String hasil1 = getCommerceList();
+               bAdapter.notifyDataSetChanged();
+               Toast.makeText(mContext,hasil1,Toast.LENGTH_SHORT).show();
+
+           }
+       };
     }
 
 
-    void getCommerceList(){
+
+    public String getCommerceList(){
+
         addSubscription(mListRepository.getListDao()
         .subscribeOn(Schedulers.io())
         .subscribe(new MyObserver<ListDao>(){
@@ -99,14 +102,22 @@ public class MainActivityVM extends GitsVM {
                 Log.wtf("DATA",listDao.getDATA().getProducts().get(0).getNama());
                 mData.addAll(listDao.getDATA().getProducts());
                 initRecycleView(mData);
+                hasil = "Success";
             }
         }));
+
+        return hasil;
     }
 
     private void initRecycleView(List<ListDao.DATABean.ProductsBean> mData) {
         gridLayoutManager = new GridLayoutManager(mContext, 2);
             bAdapter = new ContentAdapter(mData);
             bAdapter.notifyDataSetChanged();
+    }
+
+    @BindingAdapter({"onRefresh"})
+    public static void onRefresh(SwipeRefreshLayout swipeRefreshLayout, SwipeRefreshLayout.OnRefreshListener newSwipe){
+        swipeRefreshLayout.setOnRefreshListener(newSwipe);
     }
 
 

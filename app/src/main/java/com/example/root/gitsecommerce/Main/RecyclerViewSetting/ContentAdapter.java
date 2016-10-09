@@ -1,10 +1,12 @@
 package com.example.root.gitsecommerce.Main.RecyclerViewSetting;
 
+import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.Dao.ListDao;
+import com.example.root.gitsecommerce.Detail.DetailActivity;
 import com.example.root.gitsecommerce.R;
 import com.example.root.gitsecommerce.databinding.CardContentRowBinding;
 
@@ -40,7 +42,9 @@ public class ContentAdapter extends GitsAdapter<ListDao.DATABean.ProductsBean,Co
 
     @Override
     public void onRowClick(ListDao.DATABean.ProductsBean data, int position) {
-
+        Intent i = new Intent(mContext, DetailActivity.class);
+        i.putExtra("nama", mCollection.get(position).getId());
+        mContext.startActivity(i);
     }
 
 
