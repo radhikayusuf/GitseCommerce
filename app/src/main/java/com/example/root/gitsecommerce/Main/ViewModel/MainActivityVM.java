@@ -152,6 +152,7 @@ public class MainActivityVM extends GitsVM {
                     @Override
                     public void onFailure(Call<ListDao> call, Throwable t) {
                         swipeRefreshLayout.setRefreshing(false);
+
                     }
                 });
             }
