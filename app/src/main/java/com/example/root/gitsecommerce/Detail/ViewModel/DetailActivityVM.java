@@ -175,7 +175,7 @@ public class DetailActivityVM extends GitsVM {
     }
     @BindingAdapter({"setStrikeThrough"})
     public static void setStrikeThrough(TextView textView,String discount){
-        if(discount.equalsIgnoreCase("")||discount.equalsIgnoreCase("0")){
+        if(!discount.equalsIgnoreCase("")||discount.equalsIgnoreCase("0")){
             textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }else {
             textView.setPaintFlags(0);
