@@ -71,7 +71,7 @@ public class DetailActivityVM extends GitsVM {
         list.add(new DetailDao.DATABean.UkuranBean("L"));
         list.add(new DetailDao.DATABean.UkuranBean("M"));
         list.add(new DetailDao.DATABean.UkuranBean("S"));
-        mData = new DetailDao.DATABean("Jogger Pant", "100000", "10", "Celana Terbaik Abad ini",null, list);
+        mData = new DetailDao.DATABean("Jogger Pant", "100000", "0", "Celana Terbaik Abad ini",null, list);
         initComponent(mData);
 
         daoCall = CommerceApi.service(Constant.BASE_URL).getDetail(id);
@@ -122,19 +122,12 @@ public class DetailActivityVM extends GitsVM {
         for(int i = 0;i<mData.getUkuran().size();i++){
 
             size.append(mData.getUkuran().get(i).getAvailable());
-            if(i < mData.getUkuran().size()){
-                size.append(",");
+            if(i < mData.getUkuran().size()-1){
+                size.append(", ");
             }
 
         }
         observableDetail.setSize(size.toString());
-
-
-        System.out.println("Datanya"+ mData.getNama());
-        System.out.println("Datanya"+ mData.getDiskon());
-        System.out.println("Datanya"+ mData.getUkuran());
-        System.out.println("Datanya"+ mData.getDeskripsi());
-        System.out.println("Datanya"+ mData.getSpesifikasi());
     }
 
 
@@ -174,11 +167,13 @@ public class DetailActivityVM extends GitsVM {
         }
     }
     @BindingAdapter({"setStrikeThrough"})
-    public static void setStrikeThrough(TextView textView,String discount){
-        if(!discount.equalsIgnoreCase("")||discount.equalsIgnoreCase("0")){
+    public static void setStrikeThrough(TextView textView,String discount) {
+        if(discount.equalsIgnoreCase("")||discount.equalsIgnoreCase("0")){
             textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            Log.d("Hasil ", "1");
         }else {
-            textView.setPaintFlags(0);
+            textView.setVisibility(View.GONE);
+            Log.d("Hasil ", "2");
         }
     }
 

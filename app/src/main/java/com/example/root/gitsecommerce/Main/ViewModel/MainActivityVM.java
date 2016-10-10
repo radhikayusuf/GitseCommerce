@@ -62,7 +62,7 @@ public class MainActivityVM extends GitsVM {
         bAdapter = new ContentAdapter(mData);
 
         mData.clear();
-        mData.add(new ListDao.DATABean.ProductsBean("1","5","Jogger Pants","Jeans","100000","10","2","http://morefoods.hol.es/img/rest.png"));
+        mData.add(new ListDao.DATABean.ProductsBean("1","5","Jogger Pants","Jeans","100000","0","2","http://morefoods.hol.es/img/rest.png"));
 
         // v Delete soon!  v //
 
