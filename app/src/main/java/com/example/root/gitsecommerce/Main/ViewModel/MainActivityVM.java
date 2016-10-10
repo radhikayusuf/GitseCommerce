@@ -2,38 +2,27 @@ package com.example.root.gitsecommerce.Main.ViewModel;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
-import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
 //import com.example.Core.MyObserver;
 import com.example.Core.CommerceApi;
 import com.example.Dao.ListDao;
 //import com.example.Repository.ListRepository;
 import com.example.root.gitsecommerce.Constant.Constant;
-import com.example.root.gitsecommerce.Constant.eCommerceApp;
-import com.example.root.gitsecommerce.Main.ListFilter.FilterDialog;
 import com.example.root.gitsecommerce.Main.ListFilter.FilterDialogVM;
 import com.example.root.gitsecommerce.Main.RecyclerViewSetting.ContentAdapter;
 import com.example.root.gitsecommerce.R;
 import com.example.root.gitsecommerce.databinding.FilterDialogBinding;
-import com.google.common.cache.LoadingCache;
-import com.google.common.util.concurrent.AbstractScheduledService;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import android.os.Handler;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -41,7 +30,6 @@ import id.gits.mvvmcore.viewmodel.GitsVM;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by root on 07/10/16.
@@ -74,7 +62,7 @@ public class MainActivityVM extends GitsVM {
 
         // v Delete soon!  v //
 
-        filterDialogVMs = new FilterDialogVM(mContext);
+        //filterDialogVMs = new FilterDialogVM(mContext, null);
 
         // ^ Delete soon!  ^ //
 
@@ -102,9 +90,9 @@ public class MainActivityVM extends GitsVM {
                 FilterDialogBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context)
                 ,R.layout.filter_dialog, null, false);
 
-                binding.setVm(new FilterDialogVM(mContext));
 
                 Dialog dialog = new Dialog(context);
+                binding.setVm(new FilterDialogVM(mContext, dialog));
                 dialog.setContentView(binding.getRoot());
                 dialog.setCancelable(true);
                 dialog.show();

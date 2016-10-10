@@ -1,7 +1,9 @@
 package com.example.root.gitsecommerce.Main.ListFilter;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,19 +25,13 @@ public class FilterDialogVM{
     public Button.OnClickListener onClickListener;
 
 
-    public FilterDialogVM(final Context ctx) {
+    public FilterDialogVM(final Context ctx, @Nullable final Dialog dialog) {
 
         onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ctx, "Hello!", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
             }
         };
-
-
-//
-//        gadget = filterBeen.get(0).getJenis();
-//        shirt = filterBeen.get(1).getJenis();
-//        jeans = filterBeen.get(2).getJenis();
     }
 }
