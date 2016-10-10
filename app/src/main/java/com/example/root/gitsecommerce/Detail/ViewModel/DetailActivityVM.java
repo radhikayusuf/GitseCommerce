@@ -71,7 +71,7 @@ public class DetailActivityVM extends GitsVM {
         list.add(new DetailDao.DATABean.UkuranBean("L"));
         list.add(new DetailDao.DATABean.UkuranBean("M"));
         list.add(new DetailDao.DATABean.UkuranBean("S"));
-        mData = new DetailDao.DATABean("Jogger Pant", "100000", "10", "Celana Terbaik Abad ini",null, list);
+        mData = new DetailDao.DATABean("Jogger Pant", "100000", "99", "Celana Terbaik Abad ini",null, list);
         initComponent(mData);
 
         daoCall = CommerceApi.service(Constant.BASE_URL).getDetail(id);
@@ -101,18 +101,18 @@ public class DetailActivityVM extends GitsVM {
     private void initComponent(DetailDao.DATABean mData) {
         observableDetail.setNama(mData.getNama());
 
-        if(!mData.getDiskon().equalsIgnoreCase("0")){
+//        if(!mData.getDiskon().equalsIgnoreCase("0")){
             observableDetail.setPrice("Rp "+toRupiahFormat(mData.getHarga()));
             double total = (Double.parseDouble(mData.getHarga()) * Double.parseDouble(mData.getDiskon())) / 100;
 
             int hasil = Integer.parseInt(mData.getHarga()) -  (int) total;
 
             observableDetail.setPricedisc("Rp "+toRupiahFormat(String.valueOf(hasil)));
-
+/*
         }else {
-            observableDetail.setPrice("Rp "+toRupiahFormat(mData.getHarga()));
-        }
-        observableDetail.setDiscount("Discount "+mData.getDiskon()+"%");
+            observableDetail.setPricedisc("Rp "+toRupiahFormat(mData.getHarga()));
+        }*/
+        observableDetail.setDiscount(mData.getDiskon());
         observableDetail.setDesc(mData.getDeskripsi());
 
 
@@ -122,8 +122,8 @@ public class DetailActivityVM extends GitsVM {
         for(int i = 0;i<mData.getUkuran().size();i++){
 
             size.append(mData.getUkuran().get(i).getAvailable());
-            if(i < mData.getUkuran().size()){
-                size.append(",");
+            if(i < mData.getUkuran().size()-1){
+                size.append(", ");
             }
 
         }
@@ -175,10 +175,8 @@ public class DetailActivityVM extends GitsVM {
     }
     @BindingAdapter({"setStrikeThrough"})
     public static void setStrikeThrough(TextView textView,String discount){
-        if(!discount.equalsIgnoreCase("")||discount.equalsIgnoreCase("0")){
+        if(!discount.equalsIgnoreCase("0")){
             textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        }else {
-            textView.setPaintFlags(0);
         }
     }
 
@@ -201,4 +199,12 @@ public class DetailActivityVM extends GitsVM {
                 .into(imageView);
     }
 
+    @BindingAdapter({"setTextVisibility"})
+    public static void setTextVisibility(TextView textView,String discount){
+        if(discount.equalsIgnoreCase("0")){
+            textView.setVisibility(View.GONE);
+        }else {
+            textView.setVisibility(View.VISIBLE);
+        }
+    }
 }

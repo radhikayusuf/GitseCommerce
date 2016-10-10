@@ -47,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="@{vm.observableDetail.nama}"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:textAlignment="center"
                     android:textColor="#fff"/>
             </android.support.v7.widget.Toolbar>
@@ -112,9 +112,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{vm.observableDetail.pricedisc}"
-                        android:visibility='@{!vm.observableDetail.discount.equalsIgnoreCase("0")?View.VISIBLE : View.GONE}'
                         android:id="@+id/textView7"
-                        android:layout_above="@+id/textView8" />
+                        android:layout_above="@+id/textView8"
+                        android:visibility="visible"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -122,8 +122,9 @@
                         android:text="@{vm.observableDetail.price}"
                         android:id="@+id/textView8"
                         android:layout_above="@+id/textView9"
-                        android:textSize="12dp"
-                        app:setStrikeThrough="@{vm.observableDetail.discount}"/>
+                        android:textSize="12sp"
+                        app:setStrikeThrough="@{vm.observableDetail.discount}"
+                        app:setTextVisibility="@{vm.observableDetail.discount}"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -133,7 +134,7 @@
                         android:textColor="#2a7ff5"
                         android:layout_gravity="bottom"
                         android:layout_alignParentBottom="true"
-                        android:textSize="12dp"/>
+                        android:textSize="12sp"/>
 
                 </RelativeLayout>
 
@@ -147,10 +148,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{vm.observableDetail.discount}"
+                    android:text="@{`Discount `+vm.observableDetail.discount+`%`}"
                     android:id="@+id/textView5"
                     android:textColor="#3684fa"
-                    android:textSize="12dp"
+                    android:textSize="12sp"
                     android:paddingRight="10dp"
                     android:gravity="right" />
             </LinearLayout>
