@@ -64,14 +64,14 @@ public class DetailActivityVM extends GitsVM {
 
         url = img;
         observableDetail.setRating(Float.parseFloat(rate));
-        observableDetail.setStok("stocknya : "+stock);
+        observableDetail.setStok("stockn : "+stock);
 
         List<DetailDao.DATABean.UkuranBean> list = new ArrayList<DetailDao.DATABean.UkuranBean>();
         list.add(new DetailDao.DATABean.UkuranBean("XL"));
         list.add(new DetailDao.DATABean.UkuranBean("L"));
         list.add(new DetailDao.DATABean.UkuranBean("M"));
         list.add(new DetailDao.DATABean.UkuranBean("S"));
-        mData = new DetailDao.DATABean("Jogger Pant", "100000", "99", "Celana Terbaik Abad ini",null, list);
+        mData = new DetailDao.DATABean("Jogger Pant", "200000", "20", "Gaya Ga Pake Mahal!",null, list);
         initComponent(mData);
 
         daoCall = CommerceApi.service(Constant.BASE_URL).getDetail(id);

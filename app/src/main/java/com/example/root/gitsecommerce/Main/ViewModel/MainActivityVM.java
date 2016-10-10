@@ -3,6 +3,7 @@ package com.example.root.gitsecommerce.Main.ViewModel;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -68,9 +69,9 @@ public class MainActivityVM extends GitsVM {
 
         mData.clear();
 
-        mData.add(new ListDao.DATABean.ProductsBean("1","3","Jogger Pants","Jeans","100000","20","2","http://morefoods.hol.es/img/rest.png"));
-        mData.add(new ListDao.DATABean.ProductsBean("2","5","FoodSpot","Gadget","900000","0","2","http://www.morefoods.hol.es/img/food.png"));
-        mData.add(new ListDao.DATABean.ProductsBean("3","2","Jogger Pants","Jeans","10000","10","2","http://morefoods.hol.es/img/rest.png"));
+        mData.add(new ListDao.DATABean.ProductsBean("1","3","Jogger Pants","Jeans","200000","20","15","http://cdnc.lystit.com/photos/936f-2014/03/18/publish-gray-legacy-jogger-pant-product-1-18510788-1-077226218-normal_large_flex.jpeg"));
+        mData.add(new ListDao.DATABean.ProductsBean("2","5","IPhone 7","Gadget","9000000","0","5","http://blogs-images.forbes.com/bensin/files/2016/09/php0phsp8.jpg"));
+        mData.add(new ListDao.DATABean.ProductsBean("3","2","Nike T-Shirt","Shirt","100000","10","20","https://s3.bukalapak.com/img/83714095/medium/IMG_20150826_161328.jpg"));
 
 
         bAdapter.notifyDataSetChanged();
@@ -83,7 +84,7 @@ public class MainActivityVM extends GitsVM {
             public void onResponse(Call<ListDao> call, Response<ListDao> response) {
                 filterBeen.addAll(response.body().getDATA().getFilter());
                 filter = "Semua";
-                //filterDialogVMs = new FilterDialogVM(mContext);
+                sort = "Popularity";
                 mData.clear();
                 mData.addAll(response.body().getDATA().getProducts());
                 mBaseData = mData;
@@ -129,7 +130,7 @@ public class MainActivityVM extends GitsVM {
                 }else{
                     sort = buffHasil;
                 }
-
+                buffHasil = "";
                 Toast.makeText(context, filter, Toast.LENGTH_SHORT).show();
                 mData.clear();
 
@@ -137,7 +138,7 @@ public class MainActivityVM extends GitsVM {
                     mData.addAll(onFilterData(filter,mBaseData));
                 }
                 else{
-                    mData.addAll(onShort(sort,mData));
+                    mData.addAll(onShort(sort,mBaseData));
                 }
                 bAdapter.notifyDataSetChanged();
 
@@ -150,6 +151,7 @@ public class MainActivityVM extends GitsVM {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                buffHasil ="";
             }
         };
 
@@ -188,10 +190,12 @@ public class MainActivityVM extends GitsVM {
             case "Popularity" :
                 Collections.sort(mData2, new Comparator<ListDao.DATABean.ProductsBean>() {
                     @Override
-                    public int compare(ListDao.DATABean.ProductsBean productsBean1, ListDao.DATABean.ProductsBean productsBean2) {
-                        return productsBean1.getRating().compareTo(productsBean2.getRating());
+                    public int compare(ListDao.DATABean.ProductsBean p1, ListDao.DATABean.ProductsBean p2) {
+                        //return Integer.parseInt(p1.getRating()).compareTo(Integer.parseInt(p2.getRating()));
+                        return p1.getRating().compareToIgnoreCase(p2.getRating());
                     }
                 });
+                Log.d("SizeHasilSort :", String.valueOf(mData2.size()));
                 return mData2;
             case "Low - High Price" :
 
@@ -201,6 +205,7 @@ public class MainActivityVM extends GitsVM {
                         return productsBean1.getHarga().compareTo(productsBean2.getHarga());
                     }
                 });
+                Log.d("SizeHasilSort :", String.valueOf(mData2.size()));
                 return mData2;
             case "High - Low Price" :
 
@@ -211,6 +216,7 @@ public class MainActivityVM extends GitsVM {
                     }
                 });
                 Collections.reverse(mData2);
+                Log.d("SizeHasilSort :", String.valueOf(mData2.size()));
                 return mData2;
         }
         //bAdapter = new ContentAdapter(mData2);
@@ -262,6 +268,7 @@ public class MainActivityVM extends GitsVM {
                     @Override
                     public void onResponse(Call<ListDao> call, Response<ListDao> response) {
                         filter = "Semua";
+                        sort = "Popularity";
                         mData.clear();
                         mData.addAll(response.body().getDATA().getProducts());
                         bAdapter.notifyDataSetChanged();
