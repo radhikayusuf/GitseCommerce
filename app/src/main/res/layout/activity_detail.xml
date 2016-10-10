@@ -163,23 +163,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="  DESCRIPTION"
-                    android:id="@+id/button"
+                    android:id="@+id/btn_desc"
                     android:background="#f5aa14"
                     android:textColor="@android:color/background_light"
-                    android:gravity="left|center_vertical" />
+                    android:gravity="left|center_vertical"
+                    android:onClick="@{(v) -> vm.onCollapsing(v)}"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView10"
-                    android:layout_below="@+id/button"
-                    android:layout_alignRight="@+id/button"
-                    android:layout_alignEnd="@+id/button"
+                    android:id="@+id/tv_desc"
+                    android:layout_below="@+id/btn_desc"
+                    android:layout_alignRight="@+id/btn_desc"
+                    android:layout_alignEnd="@+id/btn_desc"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="5dp"
                     android:layout_alignParentLeft="true"
-                    android:text="@{vm.observableDetail.desc}"/>
+                    android:text="@{vm.observableDetail.desc}"
+                    app:setCollapsing="@{vm.isGoneDesc}"/>
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/layout_spec"
@@ -188,26 +191,29 @@
                 android:layout_below="@+id/layout_desc"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:visibility="@{vm.observableDetail.spec == null?View.GONE:View.VISIBLE}"
                 >
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="  SPECIFICATION"
-                    android:id="@+id/button2"
+                    android:id="@+id/btn_spec"
                     android:background="#f5aa14"
                     android:textColor="@android:color/background_light"
-                    android:gravity="left|center_vertical" />
+                    android:gravity="left|center_vertical"
+                    android:onClick="@{(v) -> vm.onCollapsing(v)}" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView11"
-                    android:layout_below="@+id/button2"
+                    android:id="@+id/tv_spec"
+                    android:layout_below="@+id/btn_spec"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_alignParentLeft="true"
-                    android:text="@{vm.observableDetail.spec}" />
+                    android:text="@{vm.observableDetail.spec}"
+                    app:setCollapsing="@{vm.isGoneSpec}" />
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/layout_size"
@@ -216,25 +222,28 @@
                 android:layout_below="@+id/layout_spec"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:visibility="@{vm.observableDetail.size == null?View.GONE:View.VISIBLE}"
                 >
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="  SIZE"
-                    android:id="@+id/button3"
+                    android:id="@+id/btn_size"
                     android:background="#f5aa14"
                     android:textColor="@android:color/background_light"
-                    android:gravity="left|center_vertical" />
+                    android:gravity="left|center_vertical"
+                    android:onClick="@{(v) -> vm.onCollapsing(v)}" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView12"
-                    android:layout_below="@+id/button3"
+                    android:id="@+id/tv_size"
+                    android:layout_below="@+id/btn_size"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_alignParentLeft="true"
-                    android:text="@{vm.observableDetail.size}"/>
+                    android:text="@{vm.observableDetail.size}"
+                    app:setCollapsing="@{vm.isGoneSize}"/>
             </RelativeLayout>
 
 

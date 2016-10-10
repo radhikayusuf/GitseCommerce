@@ -2,10 +2,14 @@ package com.example.root.gitsecommerce.Detail.ViewModel;
 
 import android.app.Activity;
 import android.content.Context;
+import android.databinding.BindingAdapter;
+import android.databinding.ObservableField;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 //import com.example.Core.MyObserver;
 import com.example.Core.CommerceApi;
@@ -16,6 +20,7 @@ import com.example.root.gitsecommerce.Constant.Constant;
 import com.example.root.gitsecommerce.Constant.eCommerceApp;
 import com.example.root.gitsecommerce.Detail.ObservableDetail;
 import com.example.root.gitsecommerce.Main.RecyclerViewSetting.ContentAdapter;
+import com.example.root.gitsecommerce.R;
 
 import java.util.List;
 
@@ -35,6 +40,9 @@ public class DetailActivityVM extends GitsVM {
     public String nama = "", rating ="", desc, spec, dis, qty;
     public DetailDao.DATABean.UkuranBean ukuranBean;
     Call<DetailDao> daoCall;
+    public ObservableField<Boolean> isGoneDesc = new ObservableField<>();
+    public ObservableField<Boolean> isGoneSize = new ObservableField<>();
+    public ObservableField<Boolean> isGoneSpec = new ObservableField<>();
     public ImageButton.OnClickListener onClickListener;
     public ObservableDetail observableDetail = new ObservableDetail("Jogger Pant",
             "Celana Terbaik Abad ini",
@@ -53,7 +61,7 @@ public class DetailActivityVM extends GitsVM {
         observableDetail.setRating(Float.parseFloat(rate));
         observableDetail.setStok("stock : "+stock);
 
-       daoCall = CommerceApi.service(Constant.BASE_URL).getDetail(id);
+        daoCall = CommerceApi.service(Constant.BASE_URL).getDetail(id);
         daoCall.enqueue(new Callback<DetailDao>() {
 
             @Override
@@ -109,5 +117,30 @@ public class DetailActivityVM extends GitsVM {
         System.out.println("Datanya"+ mData.getUkuran());
         System.out.println("Datanya"+ mData.getDeskripsi());
         System.out.println("Datanya"+ mData.getSpesifikasi());
+    }
+
+
+
+    public void onCollapsing(View v){
+        switch (v.getId()){
+            case R.id.btn_spec :
+                isGoneSpec.set(true);
+                break;
+            case R.id.btn_size :
+                isGoneSize.set(true);
+                break;
+            case R.id.btn_desc :
+                isGoneDesc.set(true);
+                break;
+        }
+    }
+
+    @BindingAdapter({"setCollapsing"})
+    public void setCollapsing(TextView textView,boolean b){
+        if(b){
+            textView.setVisibility(View.GONE);
+        }else {
+            textView.setVisibility(View.VISIBLE);
+        }
     }
 }
