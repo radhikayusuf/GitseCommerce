@@ -1,1 +1,1 @@
-include ':app', ':ecommerce_api'
+include ':app', ':ecommerce_api', ':api_commerce'

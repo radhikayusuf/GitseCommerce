@@ -1,6 +1,6 @@
 package com.example.root.gitsecommerce.Main;
 
-import com.example.Core.MyObserver;
+//import com.example.Core.MyObserver;
 import com.example.Dao.ListDao;
 import com.example.root.gitsecommerce.Main.ViewModel.MainActivityVM;
 import com.example.root.gitsecommerce.R;

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GitseCommerce.iml" filepath="$PROJECT_DIR$/GitseCommerce.iml" />
+      <module fileurl="file://$PROJECT_DIR$/api_commerce/api_commerce.iml" filepath="$PROJECT_DIR$/api_commerce/api_commerce.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/ecommerce_api/ecommerce_api.iml" filepath="$PROJECT_DIR$/ecommerce_api/ecommerce_api.iml" />
     </modules>
