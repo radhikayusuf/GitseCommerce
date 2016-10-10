@@ -46,6 +46,7 @@ public class ContentAdapter extends GitsAdapter<ListDao.DATABean.ProductsBean,Co
         i.putExtra("id", mCollection.get(position).getId());
         i.putExtra("rating", mCollection.get(position).getRating());
         i.putExtra("stock", mCollection.get(position).getStok());
+        i.putExtra("img", mCollection.get(position).getUrl_foto());
         mContext.startActivity(i);
     }
 

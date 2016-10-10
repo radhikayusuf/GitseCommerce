@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import com.example.root.gitsecommerce.Constant.eCommerceApp;
 import com.example.root.gitsecommerce.Detail.ObservableDetail;
 import com.example.root.gitsecommerce.Main.RecyclerViewSetting.ContentAdapter;
 import com.example.root.gitsecommerce.R;
+import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -40,7 +42,7 @@ import rx.schedulers.Schedulers;
  */
 
 public class DetailActivityVM extends GitsVM {
-   // private DetailRepository mDetailRepository = new DetailRepository(eCommerceApp.getMeCommerceApi());
+    public static Context ctx;
     public DetailDao.DATABean mData;
     public String nama = "", rating ="", desc, spec, dis, qty;
     public DetailDao.DATABean.UkuranBean ukuranBean;
@@ -50,14 +52,17 @@ public class DetailActivityVM extends GitsVM {
     public ObservableField<Boolean> isGoneSpec = new ObservableField<>();
     public ImageButton.OnClickListener onClickListener;
     public ObservableDetail observableDetail = new ObservableDetail("", "", "", "", "", "", "", "", "", 0.0f);
+    public String url;
 
-    public DetailActivityVM(final Context context, String id, String rate, String stock) {
+    public DetailActivityVM(final Context context, String id, String rate, String stock, String img) {
         super(context);
-
+        ctx = context;
         isGoneDesc.set(false);
         isGoneSize.set(false);
         isGoneSpec.set(false);
 
+
+        url = img;
         observableDetail.setRating(Float.parseFloat(rate));
         observableDetail.setStok("stocknya : "+stock);
 
@@ -188,14 +193,12 @@ public class DetailActivityVM extends GitsVM {
         return rupiah;
     }
 
+    @BindingAdapter({"setBG"})
+    public static void setBG(ImageView imageView, String url){
+        System.out.println("urlnya : " +url);
+        Picasso.with(ctx)
+                .load(url)
+                .into(imageView);
+    }
 
-    /*
-    @BindingAdapter({"setVisibilityDisc"})
-    public static void setVisibilityDisc(TextView textView,String discount){
-        if(discount.equalsIgnoreCase("")||discount.equalsIgnoreCase("0")){
-            textView.setVisibility(View.GONE);
-        }else {
-            textView.setVisibility(View.VISIBLE);
-        }
-    }*/
 }

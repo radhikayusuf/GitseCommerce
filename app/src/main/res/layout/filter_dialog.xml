@@ -9,9 +9,10 @@
             type="com.example.root.gitsecommerce.Main.ListFilter.FilterDialogVM"/>
     </data>
     <LinearLayout
+        android:background="#fff"
         android:id="@+id/filter_dialog"
         android:orientation="vertical"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="match_parent">
         <RadioGroup
             android:layout_width="match_parent"
