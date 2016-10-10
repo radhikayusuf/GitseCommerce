@@ -54,6 +54,7 @@ public class MainActivityVM extends GitsVM {
     public static Call<ListDao> daoCall;
     public static Context ctx;
     private static String filter = "Semua";
+    private static String sort = "Popularity";
     static String buffHasil = "Semua";
     List<ListDao.DATABean.FilterBean> filterBeen = new ArrayList<>();
 
@@ -113,7 +114,7 @@ public class MainActivityVM extends GitsVM {
 
     }
 
-    public void showDialog(final Context context, String title, String[] btnText) {
+    public void showDialog(final Context context, final String title, String[] btnText) {
         DialogInterface.OnClickListener clickListenerPos, clickListenerNeg;
         final CharSequence[] items = { "Semua", "Gadget", "Shirt", "Jeans"};
         final CharSequence[] items1 = {"Popularity", "High - Low Price", "Low - High Price"};
@@ -122,12 +123,22 @@ public class MainActivityVM extends GitsVM {
         clickListenerPos = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                filter = buffHasil;
+
+                if(title.equalsIgnoreCase("Filter")){
+                    filter =  buffHasil;
+                }else{
+                    sort = buffHasil;
+                }
+
                 Toast.makeText(context, filter, Toast.LENGTH_SHORT).show();
-                //mData = onFilterData(filter);
-                //mData.remove(0);
                 mData.clear();
-                mData.addAll(onFilterData(filter,mBaseData));
+
+                if(title.equalsIgnoreCase("Filter")){
+                    mData.addAll(onFilterData(filter,mBaseData));
+                }
+                else{
+                    mData.addAll(onShort(sort,mData));
+                }
                 bAdapter.notifyDataSetChanged();
 
                 Log.d("Sizenya : ", String.valueOf(mData.size()));
@@ -150,8 +161,13 @@ public class MainActivityVM extends GitsVM {
         builder.setSingleChoiceItems((title.equalsIgnoreCase("Sort") ? items1 : items), -1,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
-                        Toast.makeText(context, "Data "+items[item], Toast.LENGTH_SHORT).show();
-                        buffHasil = String.valueOf(items[item]);
+                        if(title.equalsIgnoreCase("Filter")){
+                            Toast.makeText(context, "Data "+items[item], Toast.LENGTH_SHORT).show();
+                            buffHasil = String.valueOf(items[item]);
+                        }else{
+                            Toast.makeText(context, "Data "+items1[item], Toast.LENGTH_SHORT).show();
+                            buffHasil = String.valueOf(items1[item]);
+                        }
                     }
                 });
 
@@ -165,18 +181,19 @@ public class MainActivityVM extends GitsVM {
     }
 
 
-    public void onShort(){
-        mData2.clear();
+    public List<ListDao.DATABean.ProductsBean> onShort(String sort, List<ListDao.DATABean.ProductsBean> beanList){
+        List<ListDao.DATABean.ProductsBean> mData2 = new ArrayList<>();
+        mData2.addAll(beanList);
         switch (sort){
-            case "popularity" :
+            case "Popularity" :
                 Collections.sort(mData2, new Comparator<ListDao.DATABean.ProductsBean>() {
                     @Override
                     public int compare(ListDao.DATABean.ProductsBean productsBean1, ListDao.DATABean.ProductsBean productsBean2) {
                         return productsBean1.getRating().compareTo(productsBean2.getRating());
                     }
                 });
-                break;
-            case "lowtohigh" :
+                return mData2;
+            case "Low - High Price" :
 
                 Collections.sort(mData2, new Comparator<ListDao.DATABean.ProductsBean>() {
                     @Override
@@ -184,8 +201,8 @@ public class MainActivityVM extends GitsVM {
                         return productsBean1.getHarga().compareTo(productsBean2.getHarga());
                     }
                 });
-                break;
-            case "hightolow" :
+                return mData2;
+            case "High - Low Price" :
 
                 Collections.sort(mData2, new Comparator<ListDao.DATABean.ProductsBean>() {
                     @Override
@@ -194,10 +211,11 @@ public class MainActivityVM extends GitsVM {
                     }
                 });
                 Collections.reverse(mData2);
-                break;
+                return mData2;
         }
-        bAdapter = new ContentAdapter(mData2);
-        bAdapter.notifyDataSetChanged();
+        //bAdapter = new ContentAdapter(mData2);
+        //bAdapter.notifyDataSetChanged();
+        return mData2;
     }
 
     public List<ListDao.DATABean.ProductsBean> onFilterData(String filter, List<ListDao.DATABean.ProductsBean> mData1){
