@@ -6,6 +6,9 @@
         <variable
             name="vm"
             type="com.example.root.gitsecommerce.Main.ViewModel.MainActivityVM"/>
+        <variable
+            name="vm"
+            type="com.example.root.gitsecommerce.Main.ListFilter.FilterDialogVM"/>
     </data>
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -84,11 +87,8 @@
                     android:background="@android:color/darker_gray"
                     android:textColor="@android:color/white" />
             </LinearLayout>
-
-
-
-
             <android.support.v7.widget.RecyclerView
+                android:layout_marginTop="5dp"
                 android:layout_below="@id/ll"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
