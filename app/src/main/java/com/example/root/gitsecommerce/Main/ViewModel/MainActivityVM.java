@@ -47,14 +47,13 @@ public class MainActivityVM extends GitsVM {
     public GridLayoutManager gridLayoutManager;
     public Button.OnClickListener btn, btnBack;
     public static List<ListDao.DATABean.ProductsBean> mData = new ArrayList<>();
+    public static List<ListDao.DATABean.ProductsBean> mBaseData = new ArrayList<>();
     public SwipeRefreshLayout.OnRefreshListener onRefreshListener;
     public static Call<ListDao> daoCall;
     public static Context ctx;
-    private static String filter = "semua";
-    static String buffHasil = "semua";
-    FilterDialogVM filterDialogVMs;
+    private static String filter = "Semua";
+    static String buffHasil = "Semua";
     List<ListDao.DATABean.FilterBean> filterBeen = new ArrayList<>();
-    FilterDialogBinding filterDialogBinding;
 
 
     public MainActivityVM(final Context context) {
@@ -65,24 +64,26 @@ public class MainActivityVM extends GitsVM {
         bAdapter = new ContentAdapter(mData);
 
         mData.clear();
+
         mData.add(new ListDao.DATABean.ProductsBean("1","3","Jogger Pants","Jeans","100000","20","2","http://morefoods.hol.es/img/rest.png"));
         mData.add(new ListDao.DATABean.ProductsBean("2","5","FoodSpot","Gadget","900000","0","2","http://www.morefoods.hol.es/img/food.png"));
         mData.add(new ListDao.DATABean.ProductsBean("3","2","Jogger Pants","Jeans","10000","10","2","http://morefoods.hol.es/img/rest.png"));
 
-        // v Delete soon!  v //
 
-        //filterDialogVMs = new FilterDialogVM(mContext, null);
+        bAdapter.notifyDataSetChanged();
 
-        // ^ Delete soon!  ^ //
+        mBaseData.addAll(mData);
 
         daoCall = CommerceApi.service(Constant.BASE_URL).getListDao();
         daoCall.enqueue(new Callback<ListDao>() {
             @Override
             public void onResponse(Call<ListDao> call, Response<ListDao> response) {
                 filterBeen.addAll(response.body().getDATA().getFilter());
+                filter = "Semua";
                 //filterDialogVMs = new FilterDialogVM(mContext);
                 mData.clear();
                 mData.addAll(response.body().getDATA().getProducts());
+                mBaseData = mData;
                 bAdapter.notifyDataSetChanged();
             }
 
@@ -96,152 +97,47 @@ public class MainActivityVM extends GitsVM {
         btn = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Dialog dialog = new Dialog(context);
-
                 if(v.getId() == R.id.btnFilter){
                     String a[] = {"Ok","Cancel"};
                     showDialog(mContext, "Filter", a);
-
+                    bAdapter.notifyDataSetChanged();
                 }else{
-                    dialog.setTitle("Sort");
-                    ShortDialogBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context)
-                    ,R.layout.short_dialog, null, false);
-                    binding.setVm(new ShortDialogVM(mContext, dialog));
-                    dialog.setContentView(binding.getRoot());
+                    String a[] = {"Ok","Cancel"};
+                    showDialog(mContext, "Sort", a);
+                    bAdapter.notifyDataSetChanged();
                 }
-
-//                dialog.setCancelable(true);
-//                dialog.show();
-
-//                AlertDialog.Builder builder = new  AlertDialog.Builder(context);
-//
-//                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        Toast.makeText(mContext,"OK",Toast.LENGTH_SHORT).show();
-//                         dialog.dismiss();
-//                    }
-//                });
-//
-//                builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                    }
-//                });
-//                AlertDialog dialog = builder.create();
-//                dialog.show();
             }
         };
 
     }
-
-    @BindingAdapter({"onRefresh"})
-    public static void onRefresh(final SwipeRefreshLayout swipeRefreshLayout, SwipeRefreshLayout.OnRefreshListener newSwipe){
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                daoCall.clone().enqueue(new Callback<ListDao>() {
-                    @Override
-                    public void onResponse(Call<ListDao> call, Response<ListDao> response) {
-                        mData.clear();
-                        mData.addAll(response.body().getDATA().getProducts());
-                        bAdapter.notifyDataSetChanged();
-                        swipeRefreshLayout.setRefreshing(false);
-                    }public String hello = "Hello";
-
-                    @Override
-                    public void onFailure(Call<ListDao> call, Throwable t) {
-                        Toast.makeText(ctx, "Error, Check Your Connection!", Toast.LENGTH_SHORT).show();
-                        swipeRefreshLayout.setRefreshing(false);
-
-                    }
-                });
-            }
-        });
-
-    }
-
-    public void onFilterData(String filter){
-        List<ListDao.DATABean.ProductsBean> mData2 = new ArrayList<>();
-        List<ListDao.DATABean.ProductsBean> mData3 = new ArrayList<>();
-        mData.clear();
-        int i;
-        switch (filter){
-            case "Semua" :
-                mData2 = mData;
-                break;
-            case "Gadget" :
-                for (i=0;i<mData.size();i++){
-                    if(mData.get(i).getJenis().equalsIgnoreCase("Gadget")){
-                        mData2 = mData;
-                    }
-                }
-                break;
-            case "Shirt" :
-                for (i=0;i<mData.size();i++){
-                    if(mData.get(i).getJenis().equalsIgnoreCase("Shirt")){
-                        mData2 = mData;
-                    }
-                }
-                break;
-            case "Jeans" :
-                for (i=0;i<mData.size();i++){
-                    if(mData.get(i).getJenis().equalsIgnoreCase("jeans")){
-                        mData2 = mData;
-                    }
-                }
-                break;
-        }
-        mData = mData2;
-        //bAdapter = new ContentAdapter(mData2);
-        bAdapter.notifyDataSetChanged();
-    }
-
-    //not finished
-//    public void onShort(){
-//        mData3.clear();
-//        switch (shrt){
-//            case "popularity" :
-//                int i;
-//                for(i = 0;i<mData2.size();i++){
-//
-//                }
-//                break;
-//            case "lowtohigh" :
-//                break;
-//            case "hightolow" :
-//                break;
-//        }
-//        bAdapter = new ContentAdapter(mData3);
-//        bAdapter.notifyDataSetChanged();
-//    }
 
     public void showDialog(final Context context, String title, String[] btnText) {
         DialogInterface.OnClickListener clickListenerPos, clickListenerNeg;
         final CharSequence[] items = { "Semua", "Gadget", "Shirt", "Jeans"};
         buffHasil = "";
 
+        clickListenerPos = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                filter = buffHasil;
+                Toast.makeText(context, filter, Toast.LENGTH_SHORT).show();
+                //mData = onFilterData(filter);
+                //mData.remove(0);
+                mData.clear();
+                mData.addAll(onFilterData(filter,mBaseData));
+                bAdapter.notifyDataSetChanged();
 
+                Log.d("Sizenya : ", String.valueOf(mData.size()));
+                paramDialogInterface.dismiss();
+            }
+        };
 
-            clickListenerPos = new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface paramDialogInterface,
-                                    int paramInt) {
-                    filter = buffHasil;
-
-                    paramDialogInterface.dismiss();
-                    Toast.makeText(context, "Disini", Toast.LENGTH_SHORT).show();
-                }
-            };
-
-            clickListenerNeg = new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    Toast.makeText(mContext, "Neg", Toast.LENGTH_SHORT).show();
-                }
-            };
+        clickListenerNeg = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        };
 
 
 
@@ -263,6 +159,69 @@ public class MainActivityVM extends GitsVM {
         }
 
         builder.show();
+    }
+
+
+    public List<ListDao.DATABean.ProductsBean> onFilterData(String filter, List<ListDao.DATABean.ProductsBean> mData1){
+        List<ListDao.DATABean.ProductsBean> mData2 = new ArrayList<>();
+        mData2.clear();
+        int i;
+        switch (filter){
+            case "Semua":
+                mData2 = mBaseData;
+                return mData2;
+            case "Gadget":
+                for (i=0; i< mData1.size(); i++){
+                    if(mData1.get(i).getJenis().equalsIgnoreCase("Gadget")){
+                        mData2.add(mData1.get(i));
+                    }
+                }
+                return mData2;
+            case "Shirt" :
+                for (i=0; i< mData1.size(); i++){
+                    if(mData1.get(i).getJenis().equalsIgnoreCase("Shirt")){
+                        mData2.add(mData1.get(i));
+                    }
+                }
+                return mData2;
+            case "Jeans" :
+                for (i=0; i< mData1.size(); i++){
+                    if(mData1.get(i).getJenis().equalsIgnoreCase("jeans")){
+                        mData2.add(mData1.get(i));
+                    }
+                }
+                return mData2;
+        }
+
+        Log.d("DataSize ", String.valueOf(mData2.size()));
+        return mData2;
+    }
+
+    @BindingAdapter({"onRefresh"})
+    public static void onRefresh(final SwipeRefreshLayout swipeRefreshLayout, SwipeRefreshLayout.OnRefreshListener newSwipe){
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                daoCall.clone().enqueue(new Callback<ListDao>() {
+                    @Override
+                    public void onResponse(Call<ListDao> call, Response<ListDao> response) {
+                        filter = "Semua";
+                        mData.clear();
+                        mData.addAll(response.body().getDATA().getProducts());
+                        bAdapter.notifyDataSetChanged();
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onFailure(Call<ListDao> call, Throwable t) {
+                        Toast.makeText(ctx, "Error, Check Your Connection!", Toast.LENGTH_SHORT).show();
+                        swipeRefreshLayout.setRefreshing(false);
+
+                    }
+                });
+            }
+        });
+
     }
 
 }

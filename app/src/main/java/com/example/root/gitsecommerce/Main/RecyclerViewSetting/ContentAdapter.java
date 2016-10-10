@@ -51,4 +51,5 @@ public class ContentAdapter extends GitsAdapter<ListDao.DATABean.ProductsBean,Co
     }
 
 
+
 }
