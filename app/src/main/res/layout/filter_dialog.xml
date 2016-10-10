@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.root.gitsecommerce.Main.ListFilter.FilterDialog">
     <data>
+        <import type="android.app.Dialog"/>
         <variable
             name="vm"
             type="com.example.root.gitsecommerce.Main.ViewModel.MainActivityVM"/>
     </data>
     <LinearLayout
-        android:layout_margin="50dp"
         android:id="@+id/filter_dialog"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -48,7 +48,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:onClick="@{vm.btnBack}"
+                android:onClick="@{vm.btnback}"
                 android:text="Back"/>
             <Button
                 android:layout_width="0dp"

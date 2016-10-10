@@ -39,14 +39,17 @@ import rx.schedulers.Schedulers;
 
 public class MainActivityVM extends GitsVM {
     public ContentAdapter bAdapter;
-    public String hello = "Hello";
+    public String hello = "Hello",filter = "semua",shrt = "popularity";
     public SwipeRefreshLayout swipeRefreshLayout;
     public GridLayoutManager gridLayoutManager;
     private ListRepository mListRepository;
-    public Button.OnClickListener btn, btnBack;
+    public Button.OnClickListener btn,btnback;
     public List<ListDao.DATABean.ProductsBean> mData = new ArrayList<>();
+    public List<ListDao.DATABean.ProductsBean> mData2 = new ArrayList<>();
+    public List<ListDao.DATABean.ProductsBean> mData3 = new ArrayList<>();
     public SwipeRefreshLayout.OnRefreshListener onRefreshListener;
     private static String hasil = "Gagal";
+    public Dialog dialog= new Dialog(mContext);
 
     public MainActivityVM(final Context context) {
         super(context);
@@ -54,15 +57,22 @@ public class MainActivityVM extends GitsVM {
         mListRepository = new ListRepository(eCommerceApp.getMeCommerceApi());
         gridLayoutManager = new GridLayoutManager(mContext, 2);
         bAdapter = new ContentAdapter(mData);
-        getCommerceList();
 
         btn = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Dialog dialog= new Dialog(mContext);
-                dialog.setContentView(R.layout.filter_dialog);
-                dialog.setCancelable(true);
+                if(v.getId() == R.id.btnSort){
+                    dialog.setContentView(R.layout.short_dialog);
+                }else {
+                    dialog.setContentView(R.layout.filter_dialog);
+                }dialog.setCancelable(true);
                 dialog.show();
+            }
+        };
+        btnback = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
             }
         };
 
@@ -120,6 +130,59 @@ public class MainActivityVM extends GitsVM {
         swipeRefreshLayout.setOnRefreshListener(newSwipe);
     }
 
+    public void onClickClose(){
+
+    }
+    public void onFilterData(){
+        mData3.clear();
+        int i;
+        switch (filter){
+            case "semua" :
+                mData2 = mData;
+                break;
+            case "gatget" :
+                for (i=0;i<mData.size();i++){
+                    if(mData.get(i).getJenis().equalsIgnoreCase("Gadget")){
+                        mData2 = mData;
+                    }
+                }
+                break;
+            case "shirt" :
+                for (i=0;i<mData.size();i++){
+                    if(mData.get(i).getJenis().equalsIgnoreCase("Shirt")){
+                        mData2 = mData;
+                    }
+                }
+                break;
+            case "jeans" :
+                for (i=0;i<mData.size();i++){
+                    if(mData.get(i).getJenis().equalsIgnoreCase("jeans")){
+                        mData2 = mData;
+                    }
+                }
+                break;
+        }
+        bAdapter = new ContentAdapter(mData2);
+        bAdapter.notifyDataSetChanged();
+    }
+    //not finished
+    public void onShort(){
+        mData3.clear();
+        switch (shrt){
+            case "popularity" :
+                int i;
+                for(i = 0;i<mData2.size();i++){
+
+                }
+                break;
+            case "lowtohigh" :
+                break;
+            case "hightolow" :
+                break;
+        }
+        bAdapter = new ContentAdapter(mData3);
+        bAdapter.notifyDataSetChanged();
+    }
 
 
 }
