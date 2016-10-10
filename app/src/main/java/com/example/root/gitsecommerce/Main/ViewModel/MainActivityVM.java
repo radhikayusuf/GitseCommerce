@@ -24,6 +24,8 @@ import com.example.root.gitsecommerce.databinding.ShortDialogBinding;
 import com.google.common.collect.SortedMapDifference;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import android.util.Log;
@@ -162,6 +164,41 @@ public class MainActivityVM extends GitsVM {
         builder.show();
     }
 
+
+    public void onShort(){
+        mData2.clear();
+        switch (sort){
+            case "popularity" :
+                Collections.sort(mData2, new Comparator<ListDao.DATABean.ProductsBean>() {
+                    @Override
+                    public int compare(ListDao.DATABean.ProductsBean productsBean1, ListDao.DATABean.ProductsBean productsBean2) {
+                        return productsBean1.getRating().compareTo(productsBean2.getRating());
+                    }
+                });
+                break;
+            case "lowtohigh" :
+
+                Collections.sort(mData2, new Comparator<ListDao.DATABean.ProductsBean>() {
+                    @Override
+                    public int compare(ListDao.DATABean.ProductsBean productsBean1, ListDao.DATABean.ProductsBean productsBean2) {
+                        return productsBean1.getHarga().compareTo(productsBean2.getHarga());
+                    }
+                });
+                break;
+            case "hightolow" :
+
+                Collections.sort(mData2, new Comparator<ListDao.DATABean.ProductsBean>() {
+                    @Override
+                    public int compare(ListDao.DATABean.ProductsBean productsBean1, ListDao.DATABean.ProductsBean productsBean2) {
+                        return productsBean1.getHarga().compareTo(productsBean2.getHarga());
+                    }
+                });
+                Collections.reverse(mData2);
+                break;
+        }
+        bAdapter = new ContentAdapter(mData2);
+        bAdapter.notifyDataSetChanged();
+    }
 
     public List<ListDao.DATABean.ProductsBean> onFilterData(String filter, List<ListDao.DATABean.ProductsBean> mData1){
         List<ListDao.DATABean.ProductsBean> mData2 = new ArrayList<>();
