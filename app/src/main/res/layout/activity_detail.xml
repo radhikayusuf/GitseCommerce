@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <import type="android.view.View"/>
 
@@ -14,54 +14,15 @@
             type="com.example.root.gitsecommerce.Detail.ObservableDetail"/>
     </data>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context="com.example.root.gitsecommerce.Detail.DetailActivity"
-        android:orientation="vertical">
-
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appBarLayout_detail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/holo_blue_dark">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar_detail"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@android:color/holo_blue_dark"
-                android:title="Gits Commerce"
-                android:titleTextColor="#fff"
-                android:padding="15dp"
-                app:layout_scrollFlags="scroll|enterAlways" >
-
-
-            <ImageButton
-                android:background="@android:color/transparent"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_arrow_back_white_24dp"
-                android:onClick="@{vm.onClickListener}"/>
-
-            <TextView
-                android:layout_marginLeft="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@{vm.observableDetail.name}"
-                android:textSize="20dp"
-                android:textAlignment="center"
-                android:textColor="#fff"/>
-
-            </android.support.v7.widget.Toolbar>
-
-        </android.support.design.widget.AppBarLayout>
-
 <RelativeLayout
     android:id="@+id/activity_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.root.gitsecommerce.Detail.DetailActivity">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -105,19 +66,21 @@
                 style="?android:attr/ratingBarStyleSmall"
                 android:progressTint="#f99539"
                 android:layout_below="@+id/textView6"
-                android:progressBackgroundTint="#f99539" />
+                android:progressBackgroundTint="#f99539"
+                android:rating="@{vm.observableDetail.rating}"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rp "
+                android:text="@{vm.observableDetail.pricedisc}"
+                android:visibility='@{!vm.observableDetail.discount.equalsIgnoreCase("0")?View.VISIBLE : View.GONE}'
                 android:id="@+id/textView7"
                 android:layout_above="@+id/textView8" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rp"
+                android:text="@{vm.observableDetail.price}"
                 android:id="@+id/textView8"
                 android:layout_above="@+id/textView9"
                 android:textSize="12dp" />
@@ -125,7 +88,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Stok"
+                android:text="@{vm.observableDetail.stok}"
                 android:id="@+id/textView9"
                 android:textColor="#2a7ff5"
                 android:layout_gravity="bottom"
@@ -144,22 +107,26 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Discount"
+            android:text="@{vm.observableDetail.discount}"
             android:id="@+id/textView5"
             android:textColor="#3684fa"
             android:textSize="12dp"
             android:paddingRight="10dp"
             android:gravity="right" />
     </LinearLayout>
-
+<RelativeLayout
+    android:id="@+id/layout_desc"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/linearLayout"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    >
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="  DESCRIPTION"
         android:id="@+id/button"
-        android:layout_below="@+id/linearLayout"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:background="#f5aa14"
         android:textColor="@android:color/background_light"
         android:gravity="left|center_vertical" />
@@ -174,16 +141,22 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
-        android:layout_alignParentLeft="true" />
-
+        android:layout_alignParentLeft="true"
+        android:text="@{vm.observableDetail.desc}"/>
+</RelativeLayout>
+<RelativeLayout
+    android:id="@+id/layout_spec"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/layout_desc"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    >
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="  SPECIFICATION"
         android:id="@+id/button2"
-        android:layout_below="@+id/textView10"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:background="#f5aa14"
         android:textColor="@android:color/background_light"
         android:gravity="left|center_vertical" />
@@ -193,21 +166,25 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView11"
         android:layout_below="@+id/button2"
-        android:layout_alignRight="@+id/textView10"
-        android:layout_alignEnd="@+id/textView10"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:layout_alignParentLeft="true" />
-
+        android:layout_alignParentLeft="true"
+        android:text="@{vm.observableDetail.spec}" />
+</RelativeLayout>
+<RelativeLayout
+    android:id="@+id/layout_size"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/layout_spec"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    >
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="  SIZE"
         android:id="@+id/button3"
-        android:layout_below="@+id/textView11"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:background="#f5aa14"
         android:textColor="@android:color/background_light"
         android:gravity="left|center_vertical" />
@@ -217,12 +194,12 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView12"
         android:layout_below="@+id/button3"
-        android:layout_alignRight="@+id/textView11"
-        android:layout_alignEnd="@+id/textView11"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
-        android:layout_alignParentLeft="true"/>
+        android:layout_alignParentLeft="true"
+        android:text="@{vm.observableDetail.size}"/>
+</RelativeLayout>
 
-    </RelativeLayout>
-</LinearLayout>
+
+</RelativeLayout>
 </layout>

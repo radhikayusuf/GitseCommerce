@@ -25,8 +25,9 @@ public class DetailActivity extends GitsActivity<DetailActivityVM, ActivityDetai
     @Override
     public DetailActivityVM getViewModel() {
         Intent i = getIntent();
-        System.out.println("idnya "+i.getStringExtra("id"));
-        return new DetailActivityVM(this, i.getStringExtra("id"));
+        System.out.println("id "+i.getStringExtra("id"));
+        System.out.println("rating "+i.getStringExtra("rating"));
+        return new DetailActivityVM(this, i.getStringExtra("id"),i.getStringExtra("rating"),i.getStringExtra("stock"));
     }
 
     @Override
