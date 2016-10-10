@@ -1,6 +1,9 @@
 package com.example.root.gitsecommerce.Main.ListShort;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.view.View;
+import android.widget.Button;
 
 import id.gits.mvvmcore.viewmodel.GitsRowVM;
 import id.gits.mvvmcore.viewmodel.GitsVM;
@@ -10,7 +13,13 @@ import id.gits.mvvmcore.viewmodel.GitsVM;
  */
 
 public class ShortDialogVM {
-    public ShortDialogVM(Context context) {
-
+    public Button.OnClickListener onClickListener;
+    public ShortDialogVM(Context context, final Dialog dialog) {
+        onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        };
     }
 }

@@ -13,9 +13,13 @@ import com.example.Dao.ListDao;
 //import com.example.Repository.ListRepository;
 import com.example.root.gitsecommerce.Constant.Constant;
 import com.example.root.gitsecommerce.Main.ListFilter.FilterDialogVM;
+import com.example.root.gitsecommerce.Main.ListShort.ShortDialog;
+import com.example.root.gitsecommerce.Main.ListShort.ShortDialogVM;
 import com.example.root.gitsecommerce.Main.RecyclerViewSetting.ContentAdapter;
 import com.example.root.gitsecommerce.R;
 import com.example.root.gitsecommerce.databinding.FilterDialogBinding;
+import com.example.root.gitsecommerce.databinding.ShortDialogBinding;
+import com.google.common.collect.SortedMapDifference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,13 +91,22 @@ public class MainActivityVM extends GitsVM {
         btn = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FilterDialogBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context)
-                ,R.layout.filter_dialog, null, false);
-
-
                 Dialog dialog = new Dialog(context);
-                binding.setVm(new FilterDialogVM(mContext, dialog));
-                dialog.setContentView(binding.getRoot());
+
+                if(v.getId() == R.id.btnFilter){
+                    dialog.setTitle("Filter");
+                    FilterDialogBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context)
+                    ,R.layout.filter_dialog, null, false);
+                    binding.setVm(new FilterDialogVM(mContext, dialog));
+                    dialog.setContentView(binding.getRoot());
+                }else{
+                    dialog.setTitle("Sort");
+                    ShortDialogBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context)
+                    ,R.layout.short_dialog, null, false);
+                    binding.setVm(new ShortDialogVM(mContext, dialog));
+                    dialog.setContentView(binding.getRoot());
+                }
+
                 dialog.setCancelable(true);
                 dialog.show();
 

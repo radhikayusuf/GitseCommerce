@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 //import com.example.Core.MyObserver;
 import com.example.Core.CommerceApi;
@@ -23,7 +24,10 @@ import com.example.root.gitsecommerce.Detail.ObservableDetail;
 import com.example.root.gitsecommerce.Main.RecyclerViewSetting.ContentAdapter;
 import com.example.root.gitsecommerce.R;
 
+import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import id.gits.mvvmcore.viewmodel.GitsVM;
 import retrofit2.Call;
@@ -45,18 +49,9 @@ public class DetailActivityVM extends GitsVM {
     public ObservableField<Boolean> isGoneSize = new ObservableField<>();
     public ObservableField<Boolean> isGoneSpec = new ObservableField<>();
     public ImageButton.OnClickListener onClickListener;
-    public ObservableDetail observableDetail = new ObservableDetail("Jogger Pant",
-            "Celana Terbaik Abad ini",
-            null,
-            "100000",
-            "L, M, S",
-            "pic",
-            "15",
-            "10",
-            null,
-            5);
+    public ObservableDetail observableDetail = new ObservableDetail("", "", "", "", "", "", "", "", "", 0.0f);
 
-    public DetailActivityVM(Context context,String id,String rate,String stock) {
+    public DetailActivityVM(final Context context, String id, String rate, String stock) {
         super(context);
 
         isGoneDesc.set(false);
@@ -65,6 +60,14 @@ public class DetailActivityVM extends GitsVM {
 
         observableDetail.setRating(Float.parseFloat(rate));
         observableDetail.setStok("stocknya : "+stock);
+
+        List<DetailDao.DATABean.UkuranBean> list = new ArrayList<DetailDao.DATABean.UkuranBean>();
+        list.add(new DetailDao.DATABean.UkuranBean("XL"));
+        list.add(new DetailDao.DATABean.UkuranBean("L"));
+        list.add(new DetailDao.DATABean.UkuranBean("M"));
+        list.add(new DetailDao.DATABean.UkuranBean("S"));
+        mData = new DetailDao.DATABean("Jogger Pant", "100000", "10", "Celana Terbaik Abad ini",null, list);
+        initComponent(mData);
 
         daoCall = CommerceApi.service(Constant.BASE_URL).getDetail(id);
         daoCall.enqueue(new Callback<DetailDao>() {
@@ -77,6 +80,7 @@ public class DetailActivityVM extends GitsVM {
 
             @Override
             public void onFailure(Call<DetailDao> call, Throwable t) {
+                Toast.makeText(context, "Error, Check Your Connection!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -91,12 +95,17 @@ public class DetailActivityVM extends GitsVM {
 
     private void initComponent(DetailDao.DATABean mData) {
         observableDetail.setNama(mData.getNama());
+
         if(!mData.getDiskon().equalsIgnoreCase("0")){
-            observableDetail.setPrice("Rp "+mData.getHarga());
+            observableDetail.setPrice("Rp "+toRupiahFormat(mData.getHarga()));
             double total = (Double.parseDouble(mData.getHarga()) * Double.parseDouble(mData.getDiskon())) / 100;
-            observableDetail.setPricedisc("Rp "+String.valueOf(total));
+
+            int hasil = Integer.parseInt(mData.getHarga()) -  (int) total;
+
+            observableDetail.setPricedisc("Rp "+toRupiahFormat(String.valueOf(hasil)));
+
         }else {
-            observableDetail.setPrice("Rp "+mData.getHarga());
+            observableDetail.setPrice("Rp "+toRupiahFormat(mData.getHarga()));
         }
         observableDetail.setDiscount("Discount "+mData.getDiskon()+"%");
         observableDetail.setDesc(mData.getDeskripsi());
@@ -167,6 +176,19 @@ public class DetailActivityVM extends GitsVM {
             textView.setPaintFlags(0);
         }
     }
+
+    public String toRupiahFormat(String nominal) {
+        NumberFormat rupiahFormat = null;
+        String rupiah = "";
+
+        rupiahFormat = NumberFormat.getInstance(Locale.GERMANY);
+        rupiah = rupiahFormat.format(Double.parseDouble(nominal)) +",00";
+
+
+        return rupiah;
+    }
+
+
     /*
     @BindingAdapter({"setVisibilityDisc"})
     public static void setVisibilityDisc(TextView textView,String discount){

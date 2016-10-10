@@ -88,6 +88,15 @@ public class DetailDao extends BaseApiDao {
     }
 
     public static class DATABean {
+        public DATABean(String nama, String harga, String diskon, String deskripsi, String spesifikasi, List<UkuranBean> ukuran) {
+            this.nama = nama;
+            this.harga = harga;
+            this.diskon = diskon;
+            this.deskripsi = deskripsi;
+            this.spesifikasi = spesifikasi;
+            this.ukuran = ukuran;
+        }
+
         private String nama;
         private String harga;
         private String diskon;
@@ -148,6 +157,10 @@ public class DetailDao extends BaseApiDao {
         }
 
         public static class UkuranBean {
+            public UkuranBean(String available) {
+                this.available = available;
+            }
+
             private String available;
 
             public String getAvailable() {
