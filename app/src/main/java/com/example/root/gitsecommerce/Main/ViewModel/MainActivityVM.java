@@ -131,9 +131,9 @@ public class MainActivityVM extends GitsVM {
                     sort = buffHasil;
                 }
                 buffHasil = "";
-                Toast.makeText(context, filter, Toast.LENGTH_SHORT).show();
-                mData.clear();
+                //Toast.makeText(context, filter, Toast.LENGTH_SHORT).show();
 
+                mData.clear();
                 if(title.equalsIgnoreCase("Filter")){
                     mData.addAll(onFilterData(filter,mBaseData));
                 }
@@ -164,10 +164,10 @@ public class MainActivityVM extends GitsVM {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                         if(title.equalsIgnoreCase("Filter")){
-                            Toast.makeText(context, "Data "+items[item], Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(context, "Data "+items[item], Toast.LENGTH_SHORT).show();
                             buffHasil = String.valueOf(items[item]);
                         }else{
-                            Toast.makeText(context, "Data "+items1[item], Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(context, "Data "+items1[item], Toast.LENGTH_SHORT).show();
                             buffHasil = String.valueOf(items1[item]);
                         }
                     }
