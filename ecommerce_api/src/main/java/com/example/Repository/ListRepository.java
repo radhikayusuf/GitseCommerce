@@ -14,11 +14,11 @@ import rx.Observable;
  */
 
 public class ListRepository {
-    eCommerceApi meCommerceApi;
-    public ListRepository(eCommerceApi commerceApi){
-        meCommerceApi = commerceApi;
-    }
-    public Observable<BaseApiDao<ContentDao>> getContentDao(){
-        return meCommerceApi.getApiService().getContentDao();
-    }
+//    eCommerceApi meCommerceApi;
+//    public ListRepository(eCommerceApi commerceApi){
+//        meCommerceApi = commerceApi;
+//    }
+//    public Observable<BaseApiDao<ContentDao>> getContentDao(){
+//        return meCommerceApi.getApiService().getContentDao();
+//    }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View"/>
 
@@ -14,15 +14,54 @@
             type="com.example.root.gitsecommerce.Detail.ObservableDetail"/>
     </data>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context="com.example.root.gitsecommerce.Detail.DetailActivity"
+        android:orientation="vertical">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBarLayout_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_dark">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_detail"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/holo_blue_dark"
+                android:title="Gits Commerce"
+                android:titleTextColor="#fff"
+                android:padding="15dp"
+                app:layout_scrollFlags="scroll|enterAlways" >
+
+
+            <ImageButton
+                android:background="@android:color/transparent"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_arrow_back_white_24dp"
+                android:onClick="@{vm.onClickListener}"/>
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@{vm.observableDetail.name}"
+                android:textSize="20dp"
+                android:textAlignment="center"
+                android:textColor="#fff"/>
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
+
 <RelativeLayout
     android:id="@+id/activity_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.root.gitsecommerce.Detail.DetailActivity">
+    >
 
     <LinearLayout
         android:orientation="horizontal"
@@ -184,5 +223,6 @@
         android:layout_marginTop="5dp"
         android:layout_alignParentLeft="true"/>
 
-</RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>
 </layout>

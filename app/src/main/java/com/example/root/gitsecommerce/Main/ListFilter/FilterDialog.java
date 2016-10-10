@@ -19,16 +19,16 @@ public class FilterDialog extends GitsActivity<MainActivityVM, FilterDialogBindi
 
     @Override
     public int getResLayout() {
-        return R.layout.filter_dialog;
+        return 0;
     }
 
     @Override
     public MainActivityVM getViewModel() {
-        return new MainActivityVM(this);
+        return null;
     }
 
     @Override
     public void bindViewModel(FilterDialogBinding binding, MainActivityVM viewModel) {
-        binding.setVm(viewModel);
+
     }
 }

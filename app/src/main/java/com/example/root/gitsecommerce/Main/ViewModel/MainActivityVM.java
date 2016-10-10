@@ -16,6 +16,7 @@ import com.example.Dao.ListDao;
 import com.example.root.gitsecommerce.Constant.Constant;
 import com.example.root.gitsecommerce.Constant.eCommerceApp;
 import com.example.root.gitsecommerce.Main.ListFilter.FilterDialog;
+import com.example.root.gitsecommerce.Main.ListFilter.FilterDialogVM;
 import com.example.root.gitsecommerce.Main.RecyclerViewSetting.ContentAdapter;
 import com.example.root.gitsecommerce.R;
 import com.example.root.gitsecommerce.databinding.FilterDialogBinding;
@@ -44,28 +45,33 @@ import rx.schedulers.Schedulers;
 
 public class MainActivityVM extends GitsVM {
     public static ContentAdapter bAdapter;
-    public String hello = "Hello";
     public SwipeRefreshLayout swipeRefreshLayout;
     public GridLayoutManager gridLayoutManager;
     public Button.OnClickListener btn, btnBack;
     public static List<ListDao.DATABean.ProductsBean> mData = new ArrayList<>();
     public SwipeRefreshLayout.OnRefreshListener onRefreshListener;
     public static Call<ListDao> daoCall;
+    public static Context ctx;
     private static String hasil = "Gagal";
-    //    private ListRepository mListRepository;
+    FilterDialogVM filterDialogVMs;
+    List<ListDao.DATABean.FilterBean> filterBeen = new ArrayList<>();
 
     public MainActivityVM(final Context context) {
         super(context);
-        //        mListRepository = new ListRepository(eCommerceApp.getMeCommerceApi());
+        ctx = context;
         swipeRefreshLayout = new SwipeRefreshLayout(mContext);
         gridLayoutManager = new GridLayoutManager(mContext, 2);
         bAdapter = new ContentAdapter(mData);
 
+        mData.clear();
+        mData.add(new ListDao.DATABean.ProductsBean("1","5","Jogger Pants","Jeans","100000","10","2","img"));
 
         daoCall = CommerceApi.service(Constant.BASE_URL).getListDao();
         daoCall.enqueue(new Callback<ListDao>() {
             @Override
             public void onResponse(Call<ListDao> call, Response<ListDao> response) {
+                filterBeen.addAll(response.body().getDATA().getFilter());
+                filterDialogVMs = new FilterDialogVM(mContext, filterBeen);
                 mData.clear();
                 mData.addAll(response.body().getDATA().getProducts());
                 bAdapter.notifyDataSetChanged();
@@ -73,6 +79,7 @@ public class MainActivityVM extends GitsVM {
 
             @Override
             public void onFailure(Call<ListDao> call, Throwable t) {
+                Toast.makeText(mContext, "Error, Check Your Connection!", Toast.LENGTH_SHORT).show();
                 Log.d("GET Content ","Failed "+t.getMessage());
             }
         });
@@ -87,53 +94,6 @@ public class MainActivityVM extends GitsVM {
             }
         };
 
-//       onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
-//           @Override
-//           public void onRefresh() {
-//               //mData.clear();
-//               //String hasil1 = getCommerceList();
-//               bAdapter.notifyDataSetChanged();
-//               Toast.makeText(mContext,hasil1,Toast.LENGTH_SHORT).show();
-//
-//           }
-//       };
-    }
-
-
-
-//    public String getCommerceList(){
-//
-//        addSubscription(mListRepository.getListDao()
-//        .subscribeOn(Schedulers.io())
-//        .subscribe(new MyObserver<ListDao>(){
-//
-//            @Override
-//            public void onApiResultCompleted() {
-//
-//
-//            }
-//
-//            @Override
-//            public void onApiResultError(String message, String code) {
-//                System.out.println("pesan errornya "+message+" \ncode "+code);
-//            }
-//
-//            @Override
-//            public void onApiResultOk(ListDao listDao) {
-//                Log.wtf("DATA",listDao.getDATA().getProducts().get(0).getNama());
-//                mData.addAll(listDao.getDATA().getProducts());
-//                //initRecycleView(mData);
-//                hasil = "Success";
-//                //gridLayoutManager = new GridLayoutManager(mContext, 2);
-//                //bAdapter = new ContentAdapter(mData);
-//                bAdapter.notifyDataSetChanged();
-//            }
-//        }));
-//
-//        return hasil;
-//    }
-
-    private void initRecycleView(List<ListDao.DATABean.ProductsBean> mData) {
     }
 
     @BindingAdapter({"onRefresh"})
@@ -144,13 +104,15 @@ public class MainActivityVM extends GitsVM {
                 daoCall.clone().enqueue(new Callback<ListDao>() {
                     @Override
                     public void onResponse(Call<ListDao> call, Response<ListDao> response) {
+                        mData.clear();
                         mData.addAll(response.body().getDATA().getProducts());
                         bAdapter.notifyDataSetChanged();
                         swipeRefreshLayout.setRefreshing(false);
-                    }
+                    }public String hello = "Hello";
 
                     @Override
                     public void onFailure(Call<ListDao> call, Throwable t) {
+                        Toast.makeText(ctx, "Error, Check Your Connection!", Toast.LENGTH_SHORT).show();
                         swipeRefreshLayout.setRefreshing(false);
 
                     }
@@ -160,6 +122,57 @@ public class MainActivityVM extends GitsVM {
 
     }
 
-
+    public void onFilterData(String filter){
+        List<ListDao.DATABean.ProductsBean> mData2 = new ArrayList<>();
+        mData.clear();
+        int i;
+        switch (filter){
+            case "Semua" :
+                mData2 = mData;
+                break;
+            case "Gadget" :
+                for (i=0;i<mData.size();i++){
+                    if(mData.get(i).getJenis().equalsIgnoreCase("Gadget")){
+                        mData2 = mData;
+                    }
+                }
+                break;
+            case "Shirt" :
+                for (i=0;i<mData.size();i++){
+                    if(mData.get(i).getJenis().equalsIgnoreCase("Shirt")){
+                        mData2 = mData;
+                    }
+                }
+                break;
+            case "Jeans" :
+                for (i=0;i<mData.size();i++){
+                    if(mData.get(i).getJenis().equalsIgnoreCase("jeans")){
+                        mData2 = mData;
+                    }
+                }
+                break;
+        }
+        mData = mData2;
+        //bAdapter = new ContentAdapter(mData2);
+        bAdapter.notifyDataSetChanged();
+    }
+    //not finished
+//    public void onShort(){
+//        mData3.clear();
+//        switch (shrt){
+//            case "popularity" :
+//                int i;
+//                for(i = 0;i<mData2.size();i++){
+//
+//                }
+//                break;
+//            case "lowtohigh" :
+//                break;
+//            case "hightolow" :
+//                break;
+//        }
+//        bAdapter = new ContentAdapter(mData3);
+//        bAdapter.notifyDataSetChanged();
+//    }
 
 }

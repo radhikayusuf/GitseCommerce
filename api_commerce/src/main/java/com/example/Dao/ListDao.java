@@ -126,6 +126,18 @@ public class ListDao extends BaseApiDao {
         }
 
         public static class ProductsBean {
+
+            public ProductsBean(String id, String rating, String nama, String jenis, String harga, String diskon, String stok, String url_foto) {
+                this.id = id;
+                this.rating = rating;
+                this.nama = nama;
+                this.jenis = jenis;
+                this.harga = harga;
+                this.diskon = diskon;
+                this.stok = stok;
+                this.url_foto = url_foto;
+            }
+
             private String id;
             private String rating;
             private String nama;

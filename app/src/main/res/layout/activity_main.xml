@@ -25,7 +25,17 @@
                 android:background="@android:color/holo_blue_dark"
                 android:title="Gits Commerce"
                 android:titleTextColor="#fff"
-                app:layout_scrollFlags="scroll|enterAlways" />
+                android:padding="15dp"
+                app:layout_scrollFlags="scroll|enterAlways" >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Gits eCommerce"
+                    android:textSize="20dp"
+                    android:textAlignment="center"
+                    android:textColor="#fff"/>
+
+            </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.AppBarLayout>
 

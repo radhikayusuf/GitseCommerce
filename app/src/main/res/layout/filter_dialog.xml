@@ -6,10 +6,9 @@
     <data>
         <variable
             name="vm"
-            type="com.example.root.gitsecommerce.Main.ViewModel.MainActivityVM"/>
+            type="com.example.root.gitsecommerce.Main.ListFilter.FilterDialogVM"/>
     </data>
     <LinearLayout
-        android:layout_margin="50dp"
         android:id="@+id/filter_dialog"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -21,36 +20,36 @@
                 android:layout_margin="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Semua"/>
+                android:text="@{vm.semua}"/>
             <RadioButton
                 android:layout_margin="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Gadget"/>
+                android:text="@{vm.gadget}"/>
             <RadioButton
                 android:layout_margin="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Shirt"/>
+                android:text="@{vm.shirt}"/>
             <RadioButton
                 android:layout_margin="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Jeans"/>
+                android:text="@{vm.jeans}"/>
 
         </RadioGroup>
         <LinearLayout
-            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <Button
+                android:background="#4242"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:onClick="@{vm.btnBack}"
                 android:text="Back"/>
             <Button
+                android:background="#f99539"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

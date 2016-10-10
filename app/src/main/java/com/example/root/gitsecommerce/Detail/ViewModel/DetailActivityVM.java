@@ -1,8 +1,13 @@
 package com.example.root.gitsecommerce.Detail.ViewModel;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 //import com.example.Core.MyObserver;
 import com.example.Core.CommerceApi;
@@ -12,6 +17,7 @@ import com.example.Dao.ListDao;
 import com.example.root.gitsecommerce.Constant.Constant;
 import com.example.root.gitsecommerce.Constant.eCommerceApp;
 import com.example.root.gitsecommerce.Detail.ObservableDetail;
+import com.example.root.gitsecommerce.Main.MainActivity;
 import com.example.root.gitsecommerce.Main.RecyclerViewSetting.ContentAdapter;
 
 import java.util.List;
@@ -32,6 +38,7 @@ public class DetailActivityVM extends GitsVM {
     public String nama = "", rating ="", desc, spec, dis, qty;
     public DetailDao.DATABean.UkuranBean ukuranBean;
     Call<DetailDao> daoCall;
+    public ImageButton.OnClickListener onClickListener;
     public ObservableDetail observableDetail = new ObservableDetail("","","","");
 
     public DetailActivityVM(Context context,String id) {
@@ -52,7 +59,12 @@ public class DetailActivityVM extends GitsVM {
             }
         });
 
-
+        onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((Activity) mContext).finish();
+            }
+        };
     }
 
 
