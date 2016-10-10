@@ -11,7 +11,6 @@ import javax.xml.ws.http.HTTPException;
 
 import okhttp3.ResponseBody;
 import retrofit2.adapter.rxjava.HttpException;
-import rx.Observable;
 import rx.Observer;
 
 /**

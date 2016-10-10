@@ -1,20 +1,41 @@
 package com.example.root.gitsecommerce.Main.ViewModel;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.databinding.BindingAdapter;
+import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
-import com.example.Core.MyObserver;
-import com.example.Dao.BaseApiDao;
-import com.example.Dao.ContentDao;
-import com.example.Repository.ListRepository;
+//import com.example.Core.MyObserver;
+import com.example.Core.CommerceApi;
+import com.example.Dao.ListDao;
+//import com.example.Repository.ListRepository;
+import com.example.root.gitsecommerce.Constant.Constant;
 import com.example.root.gitsecommerce.Constant.eCommerceApp;
+import com.example.root.gitsecommerce.Main.ListFilter.FilterDialog;
 import com.example.root.gitsecommerce.Main.RecyclerViewSetting.ContentAdapter;
+import com.example.root.gitsecommerce.R;
+import com.example.root.gitsecommerce.databinding.FilterDialogBinding;
+import com.google.common.cache.LoadingCache;
+import com.google.common.util.concurrent.AbstractScheduledService;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import android.os.Handler;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import id.gits.mvvmcore.viewmodel.GitsVM;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import rx.schedulers.Schedulers;
 
 /**
@@ -22,60 +43,121 @@ import rx.schedulers.Schedulers;
  */
 
 public class MainActivityVM extends GitsVM {
-    public ContentAdapter bAdapter;
+    public static ContentAdapter bAdapter;
+    public String hello = "Hello";
+    public SwipeRefreshLayout swipeRefreshLayout;
     public GridLayoutManager gridLayoutManager;
-    private ListRepository mListRepository;
-//    public List<ListDao.DATABean.ProductsBean> mData = new ArrayList<>();
-    public List<ContentDao.ListProduct> mData = new ArrayList<>();
-    Handler handler = new Handler();
+    public Button.OnClickListener btn, btnBack;
+    public static List<ListDao.DATABean.ProductsBean> mData = new ArrayList<>();
+    public SwipeRefreshLayout.OnRefreshListener onRefreshListener;
+    public static Call<ListDao> daoCall;
+    private static String hasil = "Gagal";
+    //    private ListRepository mListRepository;
 
-    public MainActivityVM(Context context) {
+    public MainActivityVM(final Context context) {
         super(context);
-        mListRepository = new ListRepository(eCommerceApp.getMeCommerceApi());
+        //        mListRepository = new ListRepository(eCommerceApp.getMeCommerceApi());
+        swipeRefreshLayout = new SwipeRefreshLayout(mContext);
         gridLayoutManager = new GridLayoutManager(mContext, 2);
-//        bAdapter = new ContentAdapter(mData);
-        getCommerceList();
+        bAdapter = new ContentAdapter(mData);
+
+
+        daoCall = CommerceApi.service(Constant.BASE_URL).getListDao();
+        daoCall.enqueue(new Callback<ListDao>() {
+            @Override
+            public void onResponse(Call<ListDao> call, Response<ListDao> response) {
+                mData.clear();
+                mData.addAll(response.body().getDATA().getProducts());
+                bAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<ListDao> call, Throwable t) {
+                Log.d("GET Content ","Failed "+t.getMessage());
+            }
+        });
+
+        btn = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog dialog= new Dialog(mContext);
+                dialog.setContentView(R.layout.filter_dialog);
+                dialog.setCancelable(true);
+                dialog.show();
+            }
+        };
+
+//       onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+//           @Override
+//           public void onRefresh() {
+//               //mData.clear();
+//               //String hasil1 = getCommerceList();
+//               bAdapter.notifyDataSetChanged();
+//               Toast.makeText(mContext,hasil1,Toast.LENGTH_SHORT).show();
+//
+//           }
+//       };
     }
 
-    void getCommerceList(){
-        addSubscription(mListRepository.getContentDao()
-        .subscribeOn(Schedulers.io())
-        .subscribe(new MyObserver<BaseApiDao<ContentDao>>(){
 
-            @Override
-            public void onApiResultCompleted() {
-            }
 
-            @Override
-            public void onApiResultError(String message, int code) {
-
-            }
-
-            @Override
-            public void onApiResultOk(BaseApiDao<ContentDao> contentDaoBaseApiDao) {
-               mData.addAll(contentDaoBaseApiDao.DATA.products);
-                initRecycleView(mData);
-            }
-
+//    public String getCommerceList(){
+//
+//        addSubscription(mListRepository.getListDao()
+//        .subscribeOn(Schedulers.io())
+//        .subscribe(new MyObserver<ListDao>(){
+//
 //            @Override
-//            public void onApiResultOk(ContentDao.ListProduct listProduct) {
-//                mData.add(listProduct);
-//                initRecycleView(mData);
+//            public void onApiResultCompleted() {
+//
 //
 //            }
-/*
+//
+//            @Override
+//            public void onApiResultError(String message, String code) {
+//                System.out.println("pesan errornya "+message+" \ncode "+code);
+//            }
+//
+//            @Override
+//            public void onApiResultOk(ListDao listDao) {
+//                Log.wtf("DATA",listDao.getDATA().getProducts().get(0).getNama());
+//                mData.addAll(listDao.getDATA().getProducts());
+//                //initRecycleView(mData);
+//                hasil = "Success";
+//                //gridLayoutManager = new GridLayoutManager(mContext, 2);
+//                //bAdapter = new ContentAdapter(mData);
+//                bAdapter.notifyDataSetChanged();
+//            }
+//        }));
+//
+//        return hasil;
+//    }
 
-            @Override
-            public void onApiResultOk(ContentDao contentDao) {
-                //Log.wtf("DATA",listDao.getDATA().getProducts().get(0).getNama());
-             }
-*/
-        }));
+    private void initRecycleView(List<ListDao.DATABean.ProductsBean> mData) {
     }
 
-    private void initRecycleView(List<ContentDao.ListProduct> mData) {
-            bAdapter = new ContentAdapter((ContentDao.ListProduct) mData);
-            bAdapter.notifyDataSetChanged();
+    @BindingAdapter({"onRefresh"})
+    public static void onRefresh(final SwipeRefreshLayout swipeRefreshLayout, SwipeRefreshLayout.OnRefreshListener newSwipe){
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                daoCall.clone().enqueue(new Callback<ListDao>() {
+                    @Override
+                    public void onResponse(Call<ListDao> call, Response<ListDao> response) {
+                        mData.addAll(response.body().getDATA().getProducts());
+                        bAdapter.notifyDataSetChanged();
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onFailure(Call<ListDao> call, Throwable t) {
+                        swipeRefreshLayout.setRefreshing(false);
+
+                    }
+                });
+            }
+        });
+
     }
 
 

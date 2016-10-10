@@ -17,8 +17,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Main.ListFilter.FilterDialog" />
-        <activity android:name=".Main.ListShort.ShortDialog"></activity>
+        <activity
+            android:name=".Main.ListFilter.FilterDialog"
+            android:theme="@style/Base.Theme.AppCompat.Light.Dialog" />
+        <activity android:name=".Main.ListShort.ShortDialog" />
+        <activity android:name=".Detail.DetailActivity"></activity>
     </application>
 
 </manifest>

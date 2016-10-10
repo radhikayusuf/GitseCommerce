@@ -30,9 +30,10 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
     compile 'id.gits:mvvmcore:0.1'
+    compile 'com.squareup.picasso:picasso:2.3.2'
     compile 'com.android.support:design:24.0.0-beta1'
     compile 'com.android.support:support-v4:24.0.0-beta1'
     compile 'com.android.support:cardview-v7:24.2.1'
-    compile project(path: ':ecommerce_api')
-    compile project(path: ':ecommerce_api')
+
+    compile project(path: ':api_commerce')
 }
