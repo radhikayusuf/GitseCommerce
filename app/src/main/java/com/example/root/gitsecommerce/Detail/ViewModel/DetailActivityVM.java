@@ -63,7 +63,7 @@ public class DetailActivityVM extends GitsVM {
         isGoneSpec.set(false);
 
         observableDetail.setRating(Float.parseFloat(rate));
-        observableDetail.setStok("stock : "+stock);
+        observableDetail.setStok("stocknya : "+stock);
 
         daoCall = CommerceApi.service(Constant.BASE_URL).getDetail(id);
         daoCall.enqueue(new Callback<DetailDao>() {
