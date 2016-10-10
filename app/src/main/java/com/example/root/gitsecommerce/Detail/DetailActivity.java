@@ -1,5 +1,6 @@
 package com.example.root.gitsecommerce.Detail;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -23,7 +24,9 @@ public class DetailActivity extends GitsActivity<DetailActivityVM, ActivityDetai
 
     @Override
     public DetailActivityVM getViewModel() {
-        return new DetailActivityVM(this);
+        Intent i = getIntent();
+        System.out.println("idnya "+i.getStringExtra("id"));
+        return new DetailActivityVM(this, i.getStringExtra("id"));
     }
 
     @Override

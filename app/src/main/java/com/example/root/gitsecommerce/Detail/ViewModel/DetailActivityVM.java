@@ -5,9 +5,11 @@ import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 
 //import com.example.Core.MyObserver;
+import com.example.Core.CommerceApi;
 import com.example.Dao.DetailDao;
 import com.example.Dao.ListDao;
 //import com.example.Repository.DetailRepository;
+import com.example.root.gitsecommerce.Constant.Constant;
 import com.example.root.gitsecommerce.Constant.eCommerceApp;
 import com.example.root.gitsecommerce.Detail.ObservableDetail;
 import com.example.root.gitsecommerce.Main.RecyclerViewSetting.ContentAdapter;
@@ -15,6 +17,9 @@ import com.example.root.gitsecommerce.Main.RecyclerViewSetting.ContentAdapter;
 import java.util.List;
 
 import id.gits.mvvmcore.viewmodel.GitsVM;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import rx.schedulers.Schedulers;
 
 /**
@@ -26,48 +31,33 @@ public class DetailActivityVM extends GitsVM {
     public DetailDao.DATABean mData;
     public String nama = "", rating ="", desc, spec, dis, qty;
     public DetailDao.DATABean.UkuranBean ukuranBean;
+    Call<DetailDao> daoCall;
     public ObservableDetail observableDetail = new ObservableDetail("","","","");
 
-    public DetailActivityVM(Context context) {
+    public DetailActivityVM(Context context,String id) {
         super(context);
-       // getCommerceList();
+
+        daoCall = CommerceApi.service(Constant.BASE_URL).getDetail(id);
+        daoCall.enqueue(new Callback<DetailDao>() {
+
+            @Override
+            public void onResponse(Call<DetailDao> call, Response<DetailDao> response) {
+                mData = response.body().getDATA();
+                initComponent(mData);
+            }
+
+            @Override
+            public void onFailure(Call<DetailDao> call, Throwable t) {
+
+            }
+        });
 
 
     }
 
-//    public void getCommerceList(){
-//
-//        addSubscription(mDetailRepository.getDetailDao("1")
-//                .subscribeOn(Schedulers.io())
-//                .subscribe(new MyObserver<DetailDao>(){
-//
-//                    @Override
-//                    public void onApiResultCompleted() {
-//
-//
-//                    }
-//
-//                    @Override
-//                    public void onApiResultError(String message, String code) {
-//                        System.out.println("pesan errornya "+message+" \ncode "+code);
-//                    }
-//
-//                    @Override
-//                    public void onApiResultOk(DetailDao detailDao) {
-//                        //Log.wtf("DATA",listDao.getDATA().getProducts().get(0).getNama());
-//                        mData = detailDao.getDATA();
-//                        initComponent(mData);
-//                    }
-//
-//                }));
-//    }
 
     private void initComponent(DetailDao.DATABean mData) {
         observableDetail.setName(mData.getNama());
-//        nama = mData.getNama();
-//        Log.d("Datanya :", nama);
-//        desc = mData.getDeskripsi();
-//        spec = mData.getSpesifikasi();
-//        dis = mData.getDiskon();
+        System.out.println("Datanya"+ mData.getNama());
     }
 }

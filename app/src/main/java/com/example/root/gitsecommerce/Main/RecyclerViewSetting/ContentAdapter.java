@@ -43,7 +43,7 @@ public class ContentAdapter extends GitsAdapter<ListDao.DATABean.ProductsBean,Co
     @Override
     public void onRowClick(ListDao.DATABean.ProductsBean data, int position) {
         Intent i = new Intent(mContext, DetailActivity.class);
-        i.putExtra("nama", mCollection.get(position).getId());
+        i.putExtra("id", mCollection.get(position).getId());
         mContext.startActivity(i);
     }
 

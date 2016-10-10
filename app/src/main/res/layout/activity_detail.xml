@@ -34,8 +34,8 @@
         android:id="@+id/linearLayout">
 
         <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:id="@+id/imageView2"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
@@ -53,7 +53,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@={vm.observableDetail.nama}"
+                android:text="@={vm.observableDetail.name}"
                 android:id="@+id/textView6"
                 android:textColor="#f88f27"
                 android:layout_alignParentTop="true"
@@ -78,7 +78,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rp "
+                android:text="Rp"
                 android:id="@+id/textView8"
                 android:layout_above="@+id/textView9"
                 android:textSize="12dp" />

@@ -26,7 +26,7 @@ public class ObservableDetail extends BaseObservable {
 
     public void setName(String nama) {
         this.nama = nama;
-        //notifyPropertyChanged(BR.); <= qiel yang ini gabisa bisa
+        notifyPropertyChanged(BR.name);
     }
 
 
@@ -37,7 +37,7 @@ public class ObservableDetail extends BaseObservable {
 
     public void setRating(String rating) {
         this.rating = rating;
-        //notifyPropertyChanged(BR.);
+        notifyPropertyChanged(BR.rating);
     }
 
 
@@ -48,7 +48,7 @@ public class ObservableDetail extends BaseObservable {
 
     public void setDesc(String desc) {
         this.desc = desc;
-     //   notifyPropertyChanged(BR.desc);
+        notifyPropertyChanged(BR.desc);
     }
 
     @Bindable
@@ -58,6 +58,6 @@ public class ObservableDetail extends BaseObservable {
 
     public void setSpec(String spec) {
         this.spec = spec;
-//        notifyPropertyChanged(BR.spec);
+        notifyPropertyChanged(BR.spec);
     }
 }
