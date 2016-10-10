@@ -44,6 +44,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <Button
+                android:id="@+id/btnNeg"
                 android:background="#4242"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -51,6 +52,7 @@
                 android:text="Back"
                 android:onClick="@{vm.onClickListener}"/>
             <Button
+                android:id="@+id/btnPos"
                 android:background="#f99539"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

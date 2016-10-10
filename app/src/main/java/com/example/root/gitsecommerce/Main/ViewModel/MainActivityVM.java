@@ -2,9 +2,11 @@ package com.example.root.gitsecommerce.Main.ViewModel;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 
 //import com.example.Core.MyObserver;
@@ -48,7 +50,8 @@ public class MainActivityVM extends GitsVM {
     public SwipeRefreshLayout.OnRefreshListener onRefreshListener;
     public static Call<ListDao> daoCall;
     public static Context ctx;
-    private static String hasil = "Gagal";
+    private static String filter = "semua";
+    static String buffHasil = "semua";
     FilterDialogVM filterDialogVMs;
     List<ListDao.DATABean.FilterBean> filterBeen = new ArrayList<>();
     FilterDialogBinding filterDialogBinding;
@@ -62,7 +65,9 @@ public class MainActivityVM extends GitsVM {
         bAdapter = new ContentAdapter(mData);
 
         mData.clear();
-        mData.add(new ListDao.DATABean.ProductsBean("1","5","Jogger Pants","Jeans","100000","0","2","http://morefoods.hol.es/img/rest.png"));
+        mData.add(new ListDao.DATABean.ProductsBean("1","3","Jogger Pants","Jeans","100000","20","2","http://morefoods.hol.es/img/rest.png"));
+        mData.add(new ListDao.DATABean.ProductsBean("2","5","FoodSpot","Gadget","900000","0","2","http://www.morefoods.hol.es/img/food.png"));
+        mData.add(new ListDao.DATABean.ProductsBean("3","2","Jogger Pants","Jeans","10000","10","2","http://morefoods.hol.es/img/rest.png"));
 
         // v Delete soon!  v //
 
@@ -94,11 +99,9 @@ public class MainActivityVM extends GitsVM {
                 Dialog dialog = new Dialog(context);
 
                 if(v.getId() == R.id.btnFilter){
-                    dialog.setTitle("Filter");
-                    FilterDialogBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context)
-                    ,R.layout.filter_dialog, null, false);
-                    binding.setVm(new FilterDialogVM(mContext, dialog));
-                    dialog.setContentView(binding.getRoot());
+                    String a[] = {"Ok","Cancel"};
+                    showDialog(mContext, "Filter", a);
+
                 }else{
                     dialog.setTitle("Sort");
                     ShortDialogBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context)
@@ -107,8 +110,8 @@ public class MainActivityVM extends GitsVM {
                     dialog.setContentView(binding.getRoot());
                 }
 
-                dialog.setCancelable(true);
-                dialog.show();
+//                dialog.setCancelable(true);
+//                dialog.show();
 
 //                AlertDialog.Builder builder = new  AlertDialog.Builder(context);
 //
@@ -161,6 +164,7 @@ public class MainActivityVM extends GitsVM {
 
     public void onFilterData(String filter){
         List<ListDao.DATABean.ProductsBean> mData2 = new ArrayList<>();
+        List<ListDao.DATABean.ProductsBean> mData3 = new ArrayList<>();
         mData.clear();
         int i;
         switch (filter){
@@ -193,6 +197,7 @@ public class MainActivityVM extends GitsVM {
         //bAdapter = new ContentAdapter(mData2);
         bAdapter.notifyDataSetChanged();
     }
+
     //not finished
 //    public void onShort(){
 //        mData3.clear();
@@ -211,5 +216,53 @@ public class MainActivityVM extends GitsVM {
 //        bAdapter = new ContentAdapter(mData3);
 //        bAdapter.notifyDataSetChanged();
 //    }
+
+    public void showDialog(final Context context, String title, String[] btnText) {
+        DialogInterface.OnClickListener clickListenerPos, clickListenerNeg;
+        final CharSequence[] items = { "Semua", "Gadget", "Shirt", "Jeans"};
+        buffHasil = "";
+
+
+
+            clickListenerPos = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface,
+                                    int paramInt) {
+                    filter = buffHasil;
+
+                    paramDialogInterface.dismiss();
+                    Toast.makeText(context, "Disini", Toast.LENGTH_SHORT).show();
+                }
+            };
+
+            clickListenerNeg = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    Toast.makeText(mContext, "Neg", Toast.LENGTH_SHORT).show();
+                }
+            };
+
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title);
+
+        builder.setSingleChoiceItems(items, -1,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        Toast.makeText(context, "Data "+items[item], Toast.LENGTH_SHORT).show();
+                        buffHasil = String.valueOf(items[item]);
+                    }
+                });
+
+        builder.setPositiveButton(btnText[0], clickListenerPos);
+
+        if (btnText.length != 1) {
+            builder.setNegativeButton(btnText[1], clickListenerNeg);
+        }
+
+        builder.show();
+    }
 
 }

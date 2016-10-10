@@ -3,6 +3,7 @@ package com.example.root.gitsecommerce.Main.ListFilter;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +24,7 @@ import id.gits.mvvmcore.viewmodel.GitsVM;
 public class FilterDialogVM{
     public String semua = "Semua", gadget ="Gadget", shirt="Shirt", jeans="Jeans";
     public Button.OnClickListener onClickListener;
-
+    SharedPreferences preferences;
 
     public FilterDialogVM(final Context ctx, @Nullable final Dialog dialog) {
 
