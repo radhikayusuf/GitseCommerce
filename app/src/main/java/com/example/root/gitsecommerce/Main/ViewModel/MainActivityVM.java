@@ -99,24 +99,34 @@ public class MainActivityVM extends GitsVM {
         btn = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new  AlertDialog.Builder(context);
+                FilterDialogBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context)
+                ,R.layout.filter_dialog, null, false);
 
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(mContext,"OK",Toast.LENGTH_SHORT).show();
-                         dialog.dismiss();
-                    }
-                });
+                binding.setVm(new FilterDialogVM(mContext));
 
-                builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                AlertDialog dialog = builder.create();
+                Dialog dialog = new Dialog(context);
+                dialog.setContentView(binding.getRoot());
+                dialog.setCancelable(true);
                 dialog.show();
+
+//                AlertDialog.Builder builder = new  AlertDialog.Builder(context);
+//
+//                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Toast.makeText(mContext,"OK",Toast.LENGTH_SHORT).show();
+//                         dialog.dismiss();
+//                    }
+//                });
+//
+//                builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//                AlertDialog dialog = builder.create();
+//                dialog.show();
             }
         };
 

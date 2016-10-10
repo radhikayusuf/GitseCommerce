@@ -46,17 +46,21 @@ public class DetailActivityVM extends GitsVM {
     public ImageButton.OnClickListener onClickListener;
     public ObservableDetail observableDetail = new ObservableDetail("Jogger Pant",
             "Celana Terbaik Abad ini",
-            "",
+            null,
             "100000",
             "L, M, S",
             "pic",
             "15",
             "10",
-            "",
+            null,
             5);
 
     public DetailActivityVM(Context context,String id,String rate,String stock) {
         super(context);
+
+        isGoneDesc.set(false);
+        isGoneSize.set(false);
+        isGoneSpec.set(false);
 
         observableDetail.setRating(Float.parseFloat(rate));
         observableDetail.setStok("stock : "+stock);
@@ -72,7 +76,6 @@ public class DetailActivityVM extends GitsVM {
 
             @Override
             public void onFailure(Call<DetailDao> call, Throwable t) {
-
             }
         });
 

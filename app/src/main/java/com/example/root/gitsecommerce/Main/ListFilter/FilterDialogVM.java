@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.Dao.ListDao;
 import com.example.root.gitsecommerce.Main.ViewModel.MainActivityVM;
@@ -27,7 +28,7 @@ public class FilterDialogVM{
         onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((Activity) ctx).finish();
+                Toast.makeText(ctx, "Hello!", Toast.LENGTH_SHORT).show();
             }
         };
 
