@@ -1,7 +1,10 @@
 package com.example.root.gitsecommerce.Main.ListFilter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.Dao.ListDao;
 import com.example.root.gitsecommerce.Main.ViewModel.MainActivityVM;
@@ -15,11 +18,23 @@ import id.gits.mvvmcore.viewmodel.GitsVM;
  */
 
 public class FilterDialogVM{
-    public String semua, gadget, shirt, jeans;
+    public String semua = "Semua", gadget ="Gadget", shirt="Shirt", jeans="Jeans";
+    public Button.OnClickListener onClickListener;
 
-    public FilterDialogVM(Context ctx, List<ListDao.DATABean.FilterBean> filterBeen) {
-        gadget = filterBeen.get(0).getJenis();
-        shirt = filterBeen.get(1).getJenis();
-        jeans = filterBeen.get(2).getJenis();
+
+    public FilterDialogVM(final Context ctx) {
+
+        onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((Activity) ctx).finish();
+            }
+        };
+
+
+//
+//        gadget = filterBeen.get(0).getJenis();
+//        shirt = filterBeen.get(1).getJenis();
+//        jeans = filterBeen.get(2).getJenis();
     }
 }

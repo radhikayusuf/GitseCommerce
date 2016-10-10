@@ -136,7 +136,7 @@ public class DetailActivityVM extends GitsVM {
     }
 
     @BindingAdapter({"setCollapsing"})
-    public void setCollapsing(TextView textView,boolean b){
+    public static void setCollapsing(TextView textView,boolean b){
         if(b){
             textView.setVisibility(View.GONE);
         }else {

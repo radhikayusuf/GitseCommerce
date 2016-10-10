@@ -2,10 +2,13 @@ package com.example.root.gitsecommerce.Main.ViewModel;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.BindingAdapter;
+import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -30,6 +33,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -55,6 +59,8 @@ public class MainActivityVM extends GitsVM {
     private static String hasil = "Gagal";
     FilterDialogVM filterDialogVMs;
     List<ListDao.DATABean.FilterBean> filterBeen = new ArrayList<>();
+    FilterDialogBinding filterDialogBinding;
+
 
     public MainActivityVM(final Context context) {
         super(context);
@@ -66,12 +72,18 @@ public class MainActivityVM extends GitsVM {
         mData.clear();
         mData.add(new ListDao.DATABean.ProductsBean("1","5","Jogger Pants","Jeans","100000","10","2","img"));
 
+        // v Delete soon!  v //
+
+        filterDialogVMs = new FilterDialogVM(mContext);
+
+        // ^ Delete soon!  ^ //
+
         daoCall = CommerceApi.service(Constant.BASE_URL).getListDao();
         daoCall.enqueue(new Callback<ListDao>() {
             @Override
             public void onResponse(Call<ListDao> call, Response<ListDao> response) {
                 filterBeen.addAll(response.body().getDATA().getFilter());
-                filterDialogVMs = new FilterDialogVM(mContext, filterBeen);
+                //filterDialogVMs = new FilterDialogVM(mContext);
                 mData.clear();
                 mData.addAll(response.body().getDATA().getProducts());
                 bAdapter.notifyDataSetChanged();
@@ -87,9 +99,23 @@ public class MainActivityVM extends GitsVM {
         btn = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Dialog dialog= new Dialog(mContext);
-                dialog.setContentView(R.layout.filter_dialog);
-                dialog.setCancelable(true);
+                AlertDialog.Builder builder = new  AlertDialog.Builder(context);
+
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(mContext,"OK",Toast.LENGTH_SHORT).show();
+                         dialog.dismiss();
+                    }
+                });
+
+                builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog = builder.create();
                 dialog.show();
             }
         };

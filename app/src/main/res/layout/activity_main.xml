@@ -6,9 +6,6 @@
         <variable
             name="vm"
             type="com.example.root.gitsecommerce.Main.ViewModel.MainActivityVM"/>
-        <variable
-            name="vm"
-            type="com.example.root.gitsecommerce.Main.ListFilter.FilterDialogVM"/>
     </data>
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
