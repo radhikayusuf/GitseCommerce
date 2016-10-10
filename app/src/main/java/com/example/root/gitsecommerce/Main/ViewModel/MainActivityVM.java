@@ -114,6 +114,7 @@ public class MainActivityVM extends GitsVM {
     public void showDialog(final Context context, String title, String[] btnText) {
         DialogInterface.OnClickListener clickListenerPos, clickListenerNeg;
         final CharSequence[] items = { "Semua", "Gadget", "Shirt", "Jeans"};
+        final CharSequence[] items1 = {"Popularity", "High - Low Price", "Low - High Price"};
         buffHasil = "";
 
         clickListenerPos = new DialogInterface.OnClickListener() {
@@ -144,7 +145,7 @@ public class MainActivityVM extends GitsVM {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(title);
 
-        builder.setSingleChoiceItems(items, -1,
+        builder.setSingleChoiceItems((title.equalsIgnoreCase("Sort") ? items1 : items), -1,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                         Toast.makeText(context, "Data "+items[item], Toast.LENGTH_SHORT).show();
