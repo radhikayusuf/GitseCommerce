@@ -124,13 +124,25 @@ public class DetailActivityVM extends GitsVM {
     public void onCollapsing(View v){
         switch (v.getId()){
             case R.id.btn_spec :
-                isGoneSpec.set(true);
+                if(isGoneSpec.get()){
+                    isGoneSpec.set(false);
+                }else {
+                    isGoneSpec.set(true);
+                }
                 break;
             case R.id.btn_size :
-                isGoneSize.set(true);
+                if(isGoneSize.get()){
+                    isGoneSize.set(false);
+                }else {
+                    isGoneSize.set(true);
+                }
                 break;
             case R.id.btn_desc :
-                isGoneDesc.set(true);
+                if(isGoneDesc.get()){
+                    isGoneDesc.set(false);
+                }else {
+                    isGoneDesc.set(true);
+                }
                 break;
         }
     }
