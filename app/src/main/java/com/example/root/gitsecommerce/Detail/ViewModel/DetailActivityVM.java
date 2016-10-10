@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableField;
+import android.graphics.Paint;
 import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.View;
@@ -158,4 +159,21 @@ public class DetailActivityVM extends GitsVM {
             textView.setVisibility(View.VISIBLE);
         }
     }
+    @BindingAdapter({"setStrikeThrough"})
+    public static void setStrikeThrough(TextView textView,String discount){
+        if(discount.equalsIgnoreCase("")||discount.equalsIgnoreCase("0")){
+            textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }else {
+            textView.setPaintFlags(0);
+        }
+    }
+    /*
+    @BindingAdapter({"setVisibilityDisc"})
+    public static void setVisibilityDisc(TextView textView,String discount){
+        if(discount.equalsIgnoreCase("")||discount.equalsIgnoreCase("0")){
+            textView.setVisibility(View.GONE);
+        }else {
+            textView.setVisibility(View.VISIBLE);
+        }
+    }*/
 }

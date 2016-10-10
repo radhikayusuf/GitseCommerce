@@ -120,7 +120,8 @@
                         android:text="@{vm.observableDetail.price}"
                         android:id="@+id/textView8"
                         android:layout_above="@+id/textView9"
-                        android:textSize="12dp" />
+                        android:textSize="12dp"
+                        app:setStrikeThrough="@{vm.observableDetail.discount}"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -130,7 +131,7 @@
                         android:textColor="#2a7ff5"
                         android:layout_gravity="bottom"
                         android:layout_alignParentBottom="true"
-                        android:textSize="12dp" />
+                        android:textSize="12dp"/>
 
                 </RelativeLayout>
 
